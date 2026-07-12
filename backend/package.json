@@ -7,8 +7,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "seed": "node src/seed/seed.js",
-    "check-db": "node scripts/checkMongoConnection.js"
+    "seed": "node src/seed/seed.js"
   },
   "keywords": ["fleet", "transport", "express", "mongodb", "rbac"],
   "license": "MIT",

@@ -1,118 +1,32 @@
-# =========================
-# Dependencies
-# =========================
-node_modules/
-**/node_modules/
-
-# =========================
-# Build files
-# =========================
-dist/
-build/
-frontend/dist/
-backend/dist/
-coverage/
-
-# =========================
-# Environment files
-# =========================
-.env
-.env.*
-!.env.example
-
-backend/.env
-frontend/.env
-
-# =========================
-# Vite
-# =========================
-.vite/
-frontend/.vite/
-
-# =========================
 # Logs
-# =========================
-logs/
+logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+lerna-debug.log*
 
-# =========================
-# OS files
-# =========================
-.DS_Store
-Thumbs.db
-desktop.ini
+node_modules
+dist
+dist-ssr
+.output
+.vinxi
+.tanstack/**
+.nitro
+*.local
 
-# =========================
-# IDE files
-# =========================
+# Wrangler / Cloudflare
+.wrangler/
+.dev.vars
+
+# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-!.vscode/settings.json
-
-.idea/
+.idea
+.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-# =========================
-# Temporary files
-# =========================
-tmp/
-temp/
-*.tmp
-*.cache
-
-# =========================
-# Runtime data
-# =========================
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# =========================
-# MongoDB local data
-# =========================
-data/
-mongodb-data/
-
-# =========================
-# Uploads (if generated)
-# =========================
-uploads/
-public/uploads/
-
-# =========================
-# Testing
-# =========================
-coverage/
-.nyc_output/
-
-# =========================
-# Package manager files
-# =========================
-.pnpm-store/
-.yarn/
-.yarn-cache/
-
-# =========================
-# Claude / AI generated files
-# =========================
-.claude/
-.cursor/
-.cursor-tutor/
-.cursor-cache/
-
-# =========================
-# Misc
-# =========================
-*.local
-*.bak
-*.old
-*.orig
