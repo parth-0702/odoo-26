@@ -15,7 +15,7 @@ const mongoose = require("mongoose");
  * or unreachable so misconfiguration is obvious in local/dev setups.
  */
 async function connectDB() {
-  const uri = process.env.MONGO_URI;
+  const uri = process.env.MONGO_URI || process.env.MONGODB_URI;
   if (!uri) {
     throw new Error("MONGO_URI is missing in .env");
   }
@@ -63,7 +63,7 @@ function buildMongoConnectionError(err) {
     normalized.includes("querysrv") ||
     normalized.includes("getaddrinfo")
   ) {
-    if (String(process.env.MONGO_URI || "").startsWith("mongodb+srv://")) {
+    if (String(process.env.MONGO_URI || process.env.MONGODB_URI || "").startsWith("mongodb+srv://")) {
       console.error(
         "SRV DNS resolution failed for mongodb+srv://. If your network/DNS cannot resolve Atlas SRV records, use the standard MongoDB connection string from the Atlas Connect dialog instead."
       );

@@ -10,23 +10,25 @@ const TARGET_HOST = "cluster0.ryzjkvn.mongodb.net";
 const TARGET_SRV = `_mongodb._tcp.${TARGET_HOST}`;
 
 async function main() {
+  const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI;
+
   console.log({
     NODE_ENV: process.env.NODE_ENV || "development",
     PORT: process.env.PORT || "5000",
-    mongoUriExists: !!process.env.MONGO_URI,
+    mongoUriExists: !!mongoUri,
     frontendOrigin: process.env.CLIENT_ORIGIN || "(not set)",
   });
 
-  if (!process.env.MONGO_URI) {
+  if (!mongoUri) {
     throw new Error("MONGO_URI is missing in .env");
   }
 
-  console.log("Mongo URI:", maskMongoUri(process.env.MONGO_URI));
+  console.log("Mongo URI:", maskMongoUri(mongoUri));
 
   await checkInternetConnectivity();
   await checkDnsResolution();
   await checkSrvResolution();
-  await checkMongooseConnection();
+  await checkMongooseConnection(mongoUri);
 }
 
 async function checkInternetConnectivity() {
@@ -66,17 +68,17 @@ async function checkSrvResolution() {
   }
 }
 
-async function checkMongooseConnection() {
+async function checkMongooseConnection(mongoUri) {
   console.log("Checking mongoose connection...");
 
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
+    await mongoose.connect(mongoUri, {
       serverSelectionTimeoutMS: 10000,
       connectTimeoutMS: 10000,
     });
     console.log("MongoDB connection test: OK");
   } catch (err) {
-    console.error("MongoDB connection test failed:", classifyMongoError(err));
+    console.error("MongoDB connection test failed:", classifyMongoError(err, mongoUri));
   } finally {
     await mongoose.disconnect().catch(() => {});
   }
@@ -95,7 +97,7 @@ function describeDnsLikeError(err) {
   };
 }
 
-function classifyMongoError(err) {
+function classifyMongoError(err, mongoUri) {
   const code = err?.code || err?.cause?.code;
   const message = String(err?.message || "MongoDB connection failed");
   const normalized = message.toLowerCase();
@@ -125,6 +127,11 @@ function classifyMongoError(err) {
   }
 
   if (code === "ENOTFOUND" || code === "EAI_AGAIN" || normalized.includes("querysrv") || normalized.includes("getaddrinfo")) {
+    if (String(mongoUri || "").startsWith("mongodb+srv://")) {
+      console.error(
+        "SRV DNS resolution failed for mongodb+srv://. If your network/DNS cannot resolve Atlas SRV records, use the standard MongoDB connection string from the Atlas Connect dialog instead."
+      );
+    }
     return {
       type: "dns-resolution-failure",
       message,
