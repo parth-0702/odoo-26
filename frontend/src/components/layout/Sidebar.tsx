@@ -56,12 +56,12 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                   clsx(
                     "group relative flex items-center gap-3 px-md py-2.5 rounded-xl text-body-md transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] mb-1 border motion-safe-ui overflow-hidden",
                     isActive
-                      ? "bg-primary/15 text-white border-primary/30 shadow-[0_0_24px_rgba(229,57,53,0.15)]"
-                      : "text-white/60 hover:text-white hover:bg-white/6 border-transparent hover:translate-x-1"
+                      ? "active bg-primary/15 text-white border-primary/30 shadow-[0_0_24px_rgba(229,57,53,0.15)]"
+                      : "text-white/60 hover:text-white hover:bg-white/6 border-transparent hover:translate-x-1 hover:shadow-[0_0_15px_rgba(255,255,255,0.05)]"
                   )
                 }
               >
-                <span className="absolute inset-y-0 left-0 w-1 bg-primary scale-y-0 group-[.active]:scale-y-100 transition-transform origin-center" />
+                <span className="absolute inset-y-0 left-0 w-1 bg-primary scale-y-0 group-[.active]:scale-y-100 transition-transform origin-center duration-300" />
                 <Icon name={item.icon} className="text-[20px]" />
                 <span className="font-medium">{item.label}</span>
               </NavLink>
