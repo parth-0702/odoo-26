@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useAuth } from "@/context/AuthContext";
 import { useDrivers } from "@/hooks/useResources";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
@@ -7,8 +8,10 @@ import { DataState } from "@/components/ui/DataState";
 import { SkeletonRows } from "@/components/ui/Skeleton";
 import { GaugeRing } from "@/components/ui/GaugeRing";
 import { Icon } from "@/components/ui/Icon";
+import { Button } from "@/components/ui/Button";
 import { driverStatusTone } from "@/lib/status";
 import { titleCase, initials, formatDate, daysUntil } from "@/lib/format";
+import { driverService } from "@/services";
 import type { DriverStatus } from "@/types";
 import clsx from "clsx";
 
@@ -21,6 +24,7 @@ const STATUS_FILTERS: { key: DriverStatus | "all"; label: string }[] = [
 ];
 
 export function Drivers() {
+  const { can } = useAuth();
   const { data, loading, error, reload } = useDrivers();
   const [filter, setFilter] = useState<DriverStatus | "all">("all");
 
@@ -40,22 +44,30 @@ export function Drivers() {
         title="Driver Fleet Management"
         subtitle="Monitor safety metrics, compliance & availability across your roster"
         actions={
-          <div className="flex flex-wrap gap-1.5">
-            {STATUS_FILTERS.map((f) => (
-              <button
-                key={f.key}
-                onClick={() => setFilter(f.key)}
-                className={clsx(
-                  "px-3 py-1.5 rounded-full text-[12px] border transition-colors",
-                  filter === f.key
-                    ? "bg-primary-container/25 border-primary/40 text-primary"
-                    : "bg-black/[0.03] border-black/10 text-on-surface-variant hover:text-on-surface"
-                )}
-              >
-                {f.label}
-                {f.key !== "all" && <span className="ml-1.5 opacity-70">{counts[f.key as DriverStatus]}</span>}
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex flex-wrap gap-1.5">
+              {STATUS_FILTERS.map((f) => (
+                <button
+                  key={f.key}
+                  onClick={() => setFilter(f.key)}
+                  className={clsx(
+                    "px-3 py-1.5 rounded-full text-[12px] border transition-colors",
+                    filter === f.key
+                      ? "bg-primary-container/25 border-primary/40 text-primary"
+                      : "bg-black/[0.03] border-black/10 text-on-surface-variant hover:text-on-surface"
+                  )}
+                >
+                  {f.label}
+                  {f.key !== "all" && <span className="ml-1.5 opacity-70">{counts[f.key as DriverStatus]}</span>}
+                </button>
+              ))}
+            </div>
+            {can("driver", "create") && (
+              <Button variant="primary" onClick={() => handleAddDriver(reload)}>
+                <Icon name="add" className="text-[18px]" />
+                Add driver
+              </Button>
+            )}
           </div>
         }
       />
@@ -89,7 +101,19 @@ export function Drivers() {
                           </div>
                         </div>
                       </div>
-                      <Badge tone={driverStatusTone[d.status]} pulse={d.status === "on_duty"}>{titleCase(d.status)}</Badge>
+                      <div className="flex items-center gap-2">
+                        <Badge tone={driverStatusTone[d.status]} pulse={d.status === "on_duty"}>{titleCase(d.status)}</Badge>
+                        {can("driver", "delete") && (
+                          <button
+                            onClick={() => handleDeleteDriver(d._id, d.name, reload)}
+                            className="w-9 h-9 rounded-lg border border-outline/70 text-on-surface-variant hover:text-primary hover:border-primary/30 hover:bg-primary/5 flex items-center justify-center transition-colors"
+                            aria-label={`Delete ${d.name}`}
+                            title="Delete driver"
+                          >
+                            <Icon name="delete" className="text-[18px]" />
+                          </button>
+                        )}
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-3 mb-md">
@@ -132,6 +156,36 @@ export function Drivers() {
       </DataState>
     </div>
   );
+}
+
+async function handleAddDriver(reload: () => Promise<void>) {
+  const name = window.prompt("Driver name?");
+  if (!name) return;
+  const employeeId = window.prompt("Employee ID?");
+  if (!employeeId) return;
+  const licenseNumber = window.prompt("License number?");
+  if (!licenseNumber) return;
+  const licenseExpiry = window.prompt("License expiry date (YYYY-MM-DD)?");
+  if (!licenseExpiry) return;
+
+  const payload = {
+    name,
+    employeeId,
+    licenseNumber,
+    licenseExpiry,
+    status: "off_duty",
+    safetyScore: Number(window.prompt("Safety score?", "100") ?? 100),
+    hoursThisWeek: Number(window.prompt("Hours this week?", "0") ?? 0),
+  };
+
+  await driverService.create(payload as never);
+  await reload();
+}
+
+async function handleDeleteDriver(id: string, name: string, reload: () => Promise<void>) {
+  if (!window.confirm(`Delete driver ${name}?`)) return;
+  await driverService.remove(id);
+  await reload();
 }
 
 function InfoRow({ icon, label, value, warn }: { icon: string; label: string; value: string; warn?: boolean }) {
