@@ -6,6 +6,7 @@ const User = require("../models/User");
 const Vehicle = require("../models/Vehicle");
 const Driver = require("../models/Driver");
 const Trip = require("../models/Trip");
+const Shipment = require("../models/Shipment");
 const Maintenance = require("../models/Maintenance");
 const FuelLog = require("../models/FuelLog");
 const Expense = require("../models/Expense");
@@ -20,16 +21,16 @@ async function run() {
   console.log("Clearing collections...");
   await Promise.all([
     User.deleteMany({}), Vehicle.deleteMany({}), Driver.deleteMany({}),
-    Trip.deleteMany({}), Maintenance.deleteMany({}), FuelLog.deleteMany({}),
+    Trip.deleteMany({}), Shipment.deleteMany({}), Maintenance.deleteMany({}), FuelLog.deleteMany({}),
     Expense.deleteMany({}), Notification.deleteMany({}), VehicleDocument.deleteMany({}),
   ]);
 
   console.log("Seeding users...");
   await User.create([
+    { name: "Vikram Singh", email: "admin@arjuna.com", password: "Password123!", role: ROLES.ADMIN },
     { name: "Aarav Mehta", email: "manager@arjuna.com", password: "Password123!", role: ROLES.FLEET_MANAGER },
-    { name: "Diya Sharma", email: "dispatcher@arjuna.com", password: "Password123!", role: ROLES.DISPATCHER },
-    { name: "Kabir Rao", email: "safety@arjuna.com", password: "Password123!", role: ROLES.SAFETY_OFFICER },
-    { name: "Ananya Iyer", email: "finance@arjuna.com", password: "Password123!", role: ROLES.FINANCIAL_ANALYST },
+    { name: "J. Doe", email: "driver@arjuna.com", password: "Password123!", role: ROLES.DRIVER },
+    { name: "Ananya Iyer", email: "staff@arjuna.com", password: "Password123!", role: ROLES.STAFF },
   ]);
 
   console.log("Seeding drivers & vehicles...");
@@ -50,6 +51,13 @@ async function run() {
     { reference: "TRP-1001", vehicle: vehicles[0]._id, driver: drivers[0]._id, origin: "Mumbai", destination: "Pune", cargo: "Electronics", distanceKm: 150, status: "in_transit", priority: "high", etaMinutes: 45 },
     { reference: "TRP-1002", vehicle: vehicles[1]._id, driver: drivers[1]._id, origin: "Delhi", destination: "Jaipur", cargo: "Textiles", distanceKm: 280, status: "delayed", priority: "urgent" },
     { reference: "TRP-1003", vehicle: vehicles[2]._id, driver: drivers[2]._id, origin: "Nagpur", destination: "Indore", cargo: "FMCG", distanceKm: 380, status: "queued", priority: "normal" },
+  ]);
+
+  const trips = await Trip.find();
+  await Shipment.create([
+    { reference: "SHP-5001", trip: trips[0]?._id, vehicle: vehicles[0]._id, driver: drivers[0]._id, customerName: "Reliance Retail", origin: "Mumbai", destination: "Pune", contents: "Electronics", weightKg: 1200, status: "in_transit", priority: "high", expectedDelivery: daysFromNow(1) },
+    { reference: "SHP-5002", trip: trips[1]?._id, vehicle: vehicles[1]._id, driver: drivers[1]._id, customerName: "Future Group", origin: "Delhi", destination: "Jaipur", contents: "Textiles", weightKg: 800, status: "pending", priority: "urgent", expectedDelivery: daysFromNow(2) },
+    { reference: "SHP-5003", trip: trips[2]?._id, vehicle: vehicles[2]._id, driver: drivers[2]._id, customerName: "Amazon India", origin: "Nagpur", destination: "Indore", contents: "FMCG", weightKg: 650, status: "delivered", priority: "normal", deliveredAt: daysFromNow(-1) },
   ]);
 
   await Maintenance.create([
@@ -75,9 +83,9 @@ async function run() {
 
   console.log("Seeding notifications...");
   await Notification.create([
-    { type: "license_expiry", title: "License expired", message: "A. Smith's driving license has expired.", severity: "critical", audienceRoles: [ROLES.SAFETY_OFFICER, ROLES.FLEET_MANAGER] },
+    { type: "license_expiry", title: "License expired", message: "A. Smith's driving license has expired.", severity: "critical", audienceRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER] },
     { type: "maintenance_reminder", title: "Service overdue", message: "Vehicle V-4092 engine inspection is overdue.", severity: "critical", audienceRoles: [] },
-    { type: "trip_delayed", title: "Trip delayed", message: "TRP-1002 (Delhi → Jaipur) is running behind schedule.", severity: "warning", audienceRoles: [ROLES.DISPATCHER, ROLES.FLEET_MANAGER] },
+    { type: "trip_delayed", title: "Trip delayed", message: "TRP-1002 (Delhi → Jaipur) is running behind schedule.", severity: "warning", audienceRoles: [ROLES.DRIVER, ROLES.FLEET_MANAGER] },
     { type: "document_expiry", title: "Document expiring", message: "Insurance for V-8942 expires in 15 days.", severity: "warning", audienceRoles: [] },
   ]);
 

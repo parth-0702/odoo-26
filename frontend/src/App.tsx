@@ -7,6 +7,7 @@ import { Login } from "@/pages/Login";
 import { Dashboard } from "@/pages/Dashboard";
 import { LiveMap } from "@/pages/LiveMap";
 import { Trips } from "@/pages/Trips";
+import { Shipments } from "@/pages/Shipments";
 import { Vehicles } from "@/pages/Vehicles";
 import { VehicleDetail } from "@/pages/VehicleDetail";
 import { Drivers } from "@/pages/Drivers";
@@ -36,6 +37,7 @@ export default function App() {
             <Route index element={<Dashboard />} />
             <Route path="live-map" element={<RoleGuard resource="vehicle"><LiveMap /></RoleGuard>} />
             <Route path="trips" element={<RoleGuard resource="trip"><Trips /></RoleGuard>} />
+            <Route path="shipments" element={<RoleGuard resource="shipment"><Shipments /></RoleGuard>} />
             <Route path="vehicles" element={<RoleGuard resource="vehicle"><Vehicles /></RoleGuard>} />
             <Route path="vehicles/:id" element={<RoleGuard resource="vehicle"><VehicleDetail /></RoleGuard>} />
             <Route path="drivers" element={<RoleGuard resource="driver"><Drivers /></RoleGuard>} />

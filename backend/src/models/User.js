@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: Object.values(ROLES),
-      default: ROLES.DISPATCHER,
+      default: ROLES.STAFF,
       required: true,
     },
     avatarUrl: { type: String, default: "" },

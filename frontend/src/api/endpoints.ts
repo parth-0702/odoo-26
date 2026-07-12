@@ -7,6 +7,7 @@ export const ENDPOINTS = {
   vehicles: "/vehicles",
   drivers: "/drivers",
   trips: "/trips",
+  shipments: "/shipments",
   maintenance: "/maintenance",
   fuelLogs: "/fuel-logs",
   expenses: "/expenses",

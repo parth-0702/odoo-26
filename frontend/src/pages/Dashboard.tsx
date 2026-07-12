@@ -52,29 +52,29 @@ export function Dashboard() {
   const expiringDocs = docList.filter((d) => d.status === "expiring_soon" || d.status === "expired").length;
 
   const kpisByRole: Record<string, { icon: string; label: string; value: string | number; tone: "primary" | "tertiary" | "secondary" | "error" | "neutral" }[]> = {
+    admin: [
+      { icon: "local_shipping", label: "Active Vehicles", value: `${activeVehicles}/${vList.length}`, tone: "primary" },
+      { icon: "route", label: "Live Trips", value: activeTrips, tone: "secondary" },
+      { icon: "verified_user", label: "At-Risk Drivers", value: atRiskDrivers, tone: "error" },
+      { icon: "payments", label: "Monthly Spend", value: formatCurrency(monthlySpend), tone: "neutral" },
+    ],
     fleet_manager: [
       { icon: "local_shipping", label: "Active Vehicles", value: `${activeVehicles}/${vList.length}`, tone: "primary" },
       { icon: "route", label: "Live Trips", value: activeTrips, tone: "secondary" },
       { icon: "build", label: "Service Alerts", value: overdueMaint, tone: "tertiary" },
       { icon: "payments", label: "Monthly Spend", value: formatCurrency(monthlySpend), tone: "neutral" },
     ],
-    dispatcher: [
+    driver: [
       { icon: "route", label: "Live Trips", value: activeTrips, tone: "primary" },
       { icon: "pending_actions", label: "Queued", value: tList.filter((t) => t.status === "queued").length, tone: "tertiary" },
       { icon: "warning", label: "Delayed", value: tList.filter((t) => t.status === "delayed").length, tone: "error" },
       { icon: "local_shipping", label: "Available Fleet", value: vList.filter((v) => v.status === "idle" || v.status === "active").length, tone: "secondary" },
     ],
-    safety_officer: [
-      { icon: "verified_user", label: "At-Risk Drivers", value: atRiskDrivers, tone: "error" },
-      { icon: "badge", label: "On Duty", value: dList.filter((d) => d.status === "on_duty").length, tone: "secondary" },
-      { icon: "description", label: "Expiring Docs", value: expiringDocs, tone: "tertiary" },
-      { icon: "build", label: "Inspections Due", value: mList.filter((m) => m.type === "inspection").length, tone: "primary" },
-    ],
-    financial_analyst: [
-      { icon: "payments", label: "Total Spend", value: formatCurrency(monthlySpend), tone: "primary" },
-      { icon: "pending", label: "Pending Approvals", value: eList.filter((e) => e.status === "pending").length, tone: "tertiary" },
-      { icon: "ev_station", label: "Fuel Costs", value: formatCurrency(eList.filter((e) => e.category === "fuel").reduce((s, e) => s + e.amount, 0)), tone: "secondary" },
-      { icon: "build", label: "Maint. Costs", value: formatCurrency(mList.reduce((s, m) => s + m.cost, 0)), tone: "neutral" },
+    staff: [
+      { icon: "local_shipping", label: "Total Vehicles", value: vList.length, tone: "primary" },
+      { icon: "badge", label: "On Duty Drivers", value: dList.filter((d) => d.status === "on_duty").length, tone: "secondary" },
+      { icon: "route", label: "Live Trips", value: activeTrips, tone: "tertiary" },
+      { icon: "description", label: "Expiring Docs", value: expiringDocs, tone: "neutral" },
     ],
   };
 
