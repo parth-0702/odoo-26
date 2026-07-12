@@ -81,7 +81,7 @@ export function Dashboard() {
   const kpis = role ? kpisByRole[role] : [];
 
   return (
-    <div className="animate-fade-in-up">
+    <div className="page-enter">
       <PageHeader
         title={`Welcome, ${user?.name?.split(" ")[0] ?? "Operator"}`}
         subtitle={`${role ? ROLE_LABELS[role] : ""} · Command Center Overview`}
@@ -90,12 +90,12 @@ export function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-md mb-lg">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
-          : kpis.map((k) => <StatCard key={k.label} {...k} />)}
+          : kpis.map((k, i) => <StatCard key={k.label} {...k} delay={i * 80} />)}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-md">
         {/* Live trips */}
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 stagger-item" style={{ animationDelay: "120ms" }}>
           <CardHeader
             title="Active Operations"
             action={<Link to="/trips" className="text-[12px] text-primary hover:underline">View all</Link>}
@@ -115,7 +115,7 @@ export function Dashboard() {
         </Card>
 
         {/* Right rail: role-flavored */}
-        <Card>
+        <Card className="stagger-item" style={{ animationDelay: "180ms" }}>
           <CardHeader title="Critical Status" />
           <div className="space-y-3">
             <StatusLine icon="local_shipping" label="Fleet health" value={`${activeVehicles} active`} tone={vehicleStatusTone.active} />
@@ -140,7 +140,7 @@ export function Dashboard() {
 
       {/* Fleetio-style operations widgets */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-md mt-md">
-        <Card>
+        <Card className="stagger-item" style={{ animationDelay: "240ms" }}>
           <CardHeader title="Vehicle Status" />
           <div className="space-y-2">
             <StatusCount label="Active" value={vList.filter((v) => v.status === "active").length} tone="success" />
@@ -150,7 +150,7 @@ export function Dashboard() {
           </div>
         </Card>
 
-        <Card>
+        <Card className="stagger-item" style={{ animationDelay: "320ms" }}>
           <CardHeader title="Fuel Costs" action={<span className="text-[11px] text-on-surface-variant">Last 6 months</span>} />
           <MiniBarChart data={mockFuelCostTrend} color="#6ADB9E" formatValue={(v) => formatCurrency(v)} />
         </Card>

@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useNotifications } from "@/hooks/useNotifications";
 import { Icon } from "@/components/ui/Icon";
-import { Spinner } from "@/components/ui/Spinner";
 import { EmptyState } from "@/components/ui/EmptyState";
 import type { AppNotification } from "@/types";
 
@@ -40,8 +39,8 @@ export function NotificationCenter({ open, onClose }: { open: boolean; onClose: 
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute right-0 top-14 z-50 w-[380px] max-w-[calc(100vw-2rem)] glass-panel rounded-xl border border-black/10 shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between px-md h-14 border-b border-black/5">
+      <div className="absolute right-0 top-14 z-50 w-[380px] max-w-[calc(100vw-2rem)] glass-panel rounded-[1.25rem] border border-white/6 shadow-[0_24px_70px_rgba(0,0,0,0.44)] overflow-hidden page-enter">
+        <div className="flex items-center justify-between px-md h-14 border-b border-white/6">
           <div className="flex items-center gap-2">
             <h3 className="text-body-lg font-headline text-on-surface">Notifications</h3>
             {unread > 0 && (
@@ -59,7 +58,7 @@ export function NotificationCenter({ open, onClose }: { open: boolean; onClose: 
 
         <div className="max-h-[60vh] overflow-y-auto scrollbar-hide">
           {loading ? (
-            <div className="flex justify-center py-xl"><Spinner /></div>
+            <div className="flex justify-center py-xl"><span className="w-6 h-6 rounded-full border-2 border-white/20 border-t-primary animate-spin" /></div>
           ) : items.length === 0 ? (
             <EmptyState icon="notifications_off" title="You're all caught up" />
           ) : (
@@ -70,7 +69,7 @@ export function NotificationCenter({ open, onClose }: { open: boolean; onClose: 
                   if (!n.read) markRead(n._id);
                   if (n.link) { navigate(n.link); onClose(); }
                 }}
-                className={`w-full flex gap-3 px-md py-3 text-left border-b border-black/5 transition-colors hover:bg-black/[0.03] ${
+                className={`w-full flex gap-3 px-md py-3 text-left border-b border-white/5 transition-colors hover:bg-white/[0.03] ${
                   n.read ? "opacity-60" : ""
                 }`}
               >

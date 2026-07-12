@@ -3,7 +3,6 @@ import { useVehicles } from "@/hooks/useResources";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Icon } from "@/components/ui/Icon";
-import { Spinner } from "@/components/ui/Spinner";
 import { vehicleStatusTone } from "@/lib/status";
 import { titleCase } from "@/lib/format";
 import type { Vehicle, VehicleStatus } from "@/types";
@@ -52,7 +51,7 @@ export function LiveMap() {
   };
 
   return (
-    <div className="animate-fade-in-up h-[calc(100vh-8rem)] relative rounded-xl overflow-hidden border border-black/10 map-bg">
+    <div className="page-enter h-[calc(100vh-8rem)] relative rounded-[1.5rem] overflow-hidden border border-white/6 map-bg">
       <div className="map-grid" />
 
       {/* Geofence rings for visual depth */}
@@ -73,18 +72,15 @@ export function LiveMap() {
           >
             <div
               className={clsx(
-                "w-8 h-8 rounded-full rounded-br-none rotate-45 border-2 border-white/20 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110",
-                selected?._id === v._id && "ring-2 ring-white/60 scale-110"
+                "w-8 h-8 rounded-full rounded-br-none rotate-45 border-2 border-white/20 flex items-center justify-center shadow-lg transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 motion-safe-ui",
+                selected?._id === v._id && "ring-2 ring-primary/60 scale-110"
               )}
               style={{ background: PIN_COLOR[v.status] }}
             >
               <Icon name="local_shipping" className="text-[15px] -rotate-45 text-black/70" filled />
             </div>
             {v.status === "active" && (
-              <span
-                className="absolute inset-0 rounded-full rounded-br-none rotate-45 animate-ping opacity-40"
-                style={{ background: PIN_COLOR[v.status] }}
-              />
+              <span className="absolute inset-0 rounded-full rounded-br-none rotate-45 animate-pulse-ring opacity-40" style={{ background: PIN_COLOR[v.status] }} />
             )}
           </button>
         ))}
@@ -158,7 +154,7 @@ export function LiveMap() {
 
         <Card className="!p-md flex-1 overflow-y-auto scrollbar-hide">
           {loading ? (
-            <div className="flex justify-center py-md"><Spinner /></div>
+            <div className="flex justify-center py-md"><span className="w-6 h-6 rounded-full border-2 border-white/20 border-t-primary animate-spin" /></div>
           ) : (
             <div className="space-y-2">
               {filtered.map((v) => (
@@ -166,8 +162,8 @@ export function LiveMap() {
                   key={v._id}
                   onClick={() => setSelected(v)}
                   className={clsx(
-                    "w-full flex items-center justify-between p-2 rounded-lg text-left transition-colors",
-                    selected?._id === v._id ? "bg-primary-container/15 border border-primary/30" : "bg-surface-variant/40 border border-transparent hover:border-black/10"
+                    "w-full flex items-center justify-between p-2 rounded-lg text-left transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-safe-ui",
+                    selected?._id === v._id ? "bg-primary-container/18 border border-primary/30" : "bg-white/[0.03] border border-transparent hover:border-white/8 hover:translate-x-1"
                   )}
                 >
                   <div className="min-w-0">
@@ -184,7 +180,7 @@ export function LiveMap() {
       </div>
 
       {/* Legend */}
-      <div className="hidden sm:flex absolute top-4 right-4 gap-3 bg-surface/80 backdrop-blur-md border border-black/10 rounded-lg px-3 py-2">
+      <div className="hidden sm:flex absolute top-4 right-4 gap-3 bg-surface/80 backdrop-blur-md border border-white/6 rounded-xl px-3 py-2">
         {(Object.keys(PIN_COLOR) as VehicleStatus[]).filter((s) => s !== "retired").map((s) => (
           <div key={s} className="flex items-center gap-1.5 text-[11px] text-on-surface-variant">
             <span className="w-2 h-2 rounded-full" style={{ background: PIN_COLOR[s] }} />

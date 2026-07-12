@@ -4,7 +4,6 @@ import { useAuth } from "@/context/AuthContext";
 import { BRAND } from "@/config/brand";
 import { ROLE_LABELS } from "@/config/permissions";
 import { Icon } from "@/components/ui/Icon";
-import { Spinner } from "@/components/ui/Spinner";
 import type { Role } from "@/types";
 
 const DEMO_EMAIL: Record<Role, string> = {
@@ -48,12 +47,13 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-md">
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(20,20,25,0.12)] border border-black/[0.06] animate-fade-in-up">
+    <div className="min-h-screen bg-background flex items-center justify-center p-md relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(229,57,53,0.12),transparent_24%),radial-gradient(circle_at_80%_0%,rgba(255,255,255,0.05),transparent_20%)]" />
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 rounded-[2rem] overflow-hidden shadow-[0_24px_80px_rgba(0,0,0,0.45)] border border-white/6 page-enter relative">
         {/* Left: brand / atmosphere panel */}
-        <div className="hidden md:flex relative flex-col justify-end p-lg min-h-[520px] bg-secondary overflow-hidden">
+        <div className="hidden md:flex relative flex-col justify-end p-lg min-h-[620px] bg-[#10151a] overflow-hidden">
           <svg
-            className="absolute inset-0 w-full h-full opacity-25"
+            className="absolute inset-0 w-full h-full opacity-30"
             viewBox="0 0 400 520"
             preserveAspectRatio="xMidYMid slice"
           >
@@ -74,8 +74,8 @@ export function Login() {
             ))}
             <rect x="0" y="0" width="400" height="520" fill="url(#yardFade)" />
           </svg>
-          <div className="relative">
-            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center mb-md">
+          <div className="relative stagger-item" style={{ animationDelay: "80ms" }}>
+            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center mb-md shadow-[0_0_26px_rgba(229,57,53,0.28)]">
               <Icon name="local_shipping" className="text-white text-[20px]" filled />
             </div>
             <div className="flex items-center gap-2 mb-2">
@@ -91,8 +91,8 @@ export function Login() {
         </div>
 
         {/* Right: sign-in form */}
-        <div className="bg-surface p-lg sm:p-xl flex flex-col justify-center relative">
-          <div className="flex items-center justify-between mb-md">
+        <div className="bg-surface/85 p-lg sm:p-xl flex flex-col justify-center relative backdrop-blur-xl">
+          <div className="flex items-center justify-between mb-md stagger-item" style={{ animationDelay: "100ms" }}>
             <div>
               <h2 className="text-headline-md font-display font-bold text-on-surface">Sign In</h2>
               <p className="text-body-md text-on-surface-variant mt-1">Enter your credentials to access the terminal.</p>
@@ -106,7 +106,7 @@ export function Login() {
                 <select
                   value={role}
                   onChange={(e) => onRoleChange(e.target.value as Role)}
-                  className="w-full appearance-none h-11 px-3 rounded-lg bg-surface-container border border-black/10 text-body-md text-on-surface input-glow outline-none"
+                  className="w-full appearance-none h-11 px-3 rounded-xl bg-white/[0.04] border border-white/8 text-body-md text-on-surface input-glow outline-none motion-safe-ui"
                 >
                   {(Object.keys(ROLE_LABELS) as Role[]).map((r) => (
                     <option key={r} value={r}>{ROLE_LABELS[r]}</option>
@@ -118,7 +118,7 @@ export function Login() {
 
             <label className="block">
               <span className="text-label-caps uppercase text-on-surface-variant">Email or Operator ID</span>
-              <div className="mt-1 flex items-center gap-2 h-11 px-3 rounded-lg bg-surface-container border border-black/10 input-glow">
+              <div className="mt-1 flex items-center gap-2 h-11 px-3 rounded-xl bg-white/[0.04] border border-white/8 input-glow motion-safe-ui">
                 <input
                   type="email"
                   value={email}
@@ -135,7 +135,7 @@ export function Login() {
                 <span className="text-label-caps uppercase text-on-surface-variant">Password</span>
                 <button type="button" className="text-[12px] text-primary hover:underline">Forgot password?</button>
               </div>
-              <div className="mt-1 flex items-center gap-2 h-11 px-3 rounded-lg bg-surface-container border border-black/10 input-glow">
+              <div className="mt-1 flex items-center gap-2 h-11 px-3 rounded-xl bg-white/[0.04] border border-white/8 input-glow motion-safe-ui">
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
@@ -169,13 +169,13 @@ export function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full h-11 rounded-lg bg-primary text-white font-semibold text-data-tabular flex items-center justify-center gap-2 hover:brightness-110 transition-all disabled:opacity-50"
+              className="w-full h-11 rounded-xl bg-primary text-white font-semibold text-data-tabular flex items-center justify-center gap-2 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(229,57,53,0.28)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:opacity-50 disabled:translate-y-0"
             >
-              {loading ? <Spinner /> : <>AUTHENTICATE <Icon name="login" className="text-[18px]" /></>}
+              {loading ? <span className="inline-flex items-center gap-2"><span className="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin" /> Loading…</span> : <>AUTHENTICATE <Icon name="login" className="text-[18px]" /></>}
             </button>
           </form>
 
-          <div className="flex items-center justify-between mt-lg pt-md border-t border-black/[0.06] text-[11px] text-on-surface-variant">
+          <div className="flex items-center justify-between mt-lg pt-md border-t border-white/6 text-[11px] text-on-surface-variant">
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-success" />
               System Online

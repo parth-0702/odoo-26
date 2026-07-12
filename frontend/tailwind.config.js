@@ -70,15 +70,54 @@ export default {
       },
       keyframes: {
         "fade-in-up": {
-          "0%": { opacity: "0", transform: "translateY(12px)" },
+          "0%": { opacity: "0", transform: "translate3d(0,16px,0) scale(0.98)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "slide-in-left": {
+          "0%": { opacity: "0", transform: "translate3d(-24px,0,0)" },
+          "100%": { opacity: "1", transform: "translate3d(0,0,0)" },
+        },
+        "slide-in-right": {
+          "0%": { opacity: "0", transform: "translate3d(24px,0,0)" },
+          "100%": { opacity: "1", transform: "translate3d(0,0,0)" },
+        },
+        "rise-in": {
+          "0%": { opacity: "0", transform: "translate3d(0,18px,0) scale(0.95)" },
+          "100%": { opacity: "1", transform: "translate3d(0,0,0) scale(1)" },
+        },
+        "pulse-ring": {
+          "0%, 100%": { opacity: "0.25", transform: "scale(0.95)" },
+          "50%": { opacity: "1", transform: "scale(1.08)" },
+        },
+        "shimmer-x": {
+          "0%": { transform: "translate3d(-100%,0,0)" },
+          "100%": { transform: "translate3d(100%,0,0)" },
+        },
+        "float-gentle": {
+          "0%, 100%": { transform: "translate3d(0,0,0)" },
+          "50%": { transform: "translate3d(0,-6px,0)" },
+        },
+        "scan-line": {
+          "0%": { transform: "translate3d(-120%,0,0)" },
+          "100%": { transform: "translate3d(120%,0,0)" },
         },
         shimmer: {
           "100%": { transform: "translateX(100%)" },
         },
       },
       animation: {
-        "fade-in-up": "fade-in-up 0.5s ease-out forwards",
+        "fade-in-up": "fade-in-up 0.55s cubic-bezier(0.22,1,0.36,1) forwards",
+        "fade-in": "fade-in 0.35s cubic-bezier(0.22,1,0.36,1) forwards",
+        "slide-in-left": "slide-in-left 0.55s cubic-bezier(0.22,1,0.36,1) forwards",
+        "slide-in-right": "slide-in-right 0.55s cubic-bezier(0.22,1,0.36,1) forwards",
+        "rise-in": "rise-in 0.55s cubic-bezier(0.22,1,0.36,1) forwards",
+        "pulse-ring": "pulse-ring 2.4s ease-in-out infinite",
+        "float-gentle": "float-gentle 5s ease-in-out infinite",
+        "scan-line": "scan-line 1.8s ease-in-out infinite",
         shimmer: "shimmer 1.5s infinite",
       },
     },

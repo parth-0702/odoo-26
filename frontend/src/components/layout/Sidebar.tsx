@@ -23,10 +23,10 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   }, {});
 
   return (
-    <aside className="w-[280px] h-full bg-secondary border-r border-black/20 flex flex-col fixed left-0 top-0 z-30">
+    <aside className="w-[280px] h-full bg-[#0e1115] border-r border-white/8 flex flex-col fixed left-0 top-0 z-30 shadow-[18px_0_60px_rgba(0,0,0,0.35)]">
       {/* Brand */}
       <div className="h-16 flex items-center gap-3 px-lg border-b border-white/10">
-        <div className="w-10 h-10 rounded-lg overflow-hidden bg-primary flex items-center justify-center shrink-0">
+        <div className="w-10 h-10 rounded-lg overflow-hidden bg-primary flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(229,57,53,0.35)]">
           <img src={BRAND.logoUrl} alt={BRAND.fullName} className="w-full h-full object-cover" />
         </div>
         <div>
@@ -54,13 +54,14 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 onClick={onNavigate}
                 className={({ isActive }: { isActive: boolean }) =>
                   clsx(
-                    "flex items-center gap-3 px-md py-2.5 rounded-lg text-body-md transition-colors mb-0.5 border",
+                    "group relative flex items-center gap-3 px-md py-2.5 rounded-xl text-body-md transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] mb-1 border motion-safe-ui overflow-hidden",
                     isActive
-                      ? "bg-primary text-white border-primary"
-                      : "text-white/60 hover:text-white hover:bg-white/5 border-transparent"
+                      ? "bg-primary/15 text-white border-primary/30 shadow-[0_0_24px_rgba(229,57,53,0.15)]"
+                      : "text-white/60 hover:text-white hover:bg-white/6 border-transparent hover:translate-x-1"
                   )
                 }
               >
+                <span className="absolute inset-y-0 left-0 w-1 bg-primary scale-y-0 group-[.active]:scale-y-100 transition-transform origin-center" />
                 <Icon name={item.icon} className="text-[20px]" />
                 <span className="font-medium">{item.label}</span>
               </NavLink>
@@ -82,7 +83,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
         </div>
         <button
           onClick={logout}
-          className="text-white/50 hover:text-primary transition-colors p-1"
+          className="text-white/50 hover:text-primary transition-all p-1 hover:scale-110"
           title="Sign out"
         >
           <Icon name="logout" className="text-[20px]" />

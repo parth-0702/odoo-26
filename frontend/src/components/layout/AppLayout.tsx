@@ -20,7 +20,7 @@ export function AppLayout() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-on-surface bg-grid-pattern">
+    <div className="min-h-screen bg-background text-on-surface bg-grid-pattern motion-safe-ui">
       {/* Desktop sidebar */}
       <div className="hidden lg:block">
         <Sidebar />
@@ -29,14 +29,14 @@ export function AppLayout() {
       {/* Mobile sidebar */}
       {mobileNav && (
         <div className="lg:hidden">
-          <div className="fixed inset-0 z-30 bg-background/70 backdrop-blur-sm" onClick={() => setMobileNav(false)} />
+          <div className="fixed inset-0 z-30 bg-background/80 backdrop-blur-sm" onClick={() => setMobileNav(false)} />
           <Sidebar onNavigate={() => setMobileNav(false)} />
         </div>
       )}
 
-      <div className="lg:pl-[280px] min-h-screen flex flex-col">
+      <div className="lg:pl-[280px] min-h-screen flex flex-col page-enter">
         <TopBar onOpenSearch={() => setSearchOpen(true)} onOpenMenu={() => setMobileNav(true)} />
-        <main className="flex-1 p-md sm:p-lg max-w-[1600px] w-full mx-auto">
+        <main className="flex-1 p-md sm:p-lg max-w-[1600px] w-full mx-auto motion-safe-ui">
           <Outlet />
         </main>
       </div>

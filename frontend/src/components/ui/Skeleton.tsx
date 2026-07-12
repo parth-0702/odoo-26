@@ -4,9 +4,7 @@ export function Skeleton({ className }: { className?: string }) {
   return (
     <div
       className={clsx(
-        "relative overflow-hidden rounded-md bg-surface-variant/30",
-        "after:absolute after:inset-0 after:-translate-x-full after:animate-shimmer",
-        "after:bg-gradient-to-r after:from-transparent after:via-white/10 after:to-transparent",
+        "shimmer-loader relative overflow-hidden rounded-md bg-white/[0.04]",
         className
       )}
     />
@@ -15,7 +13,7 @@ export function Skeleton({ className }: { className?: string }) {
 
 export function SkeletonCard() {
   return (
-    <div className="glass-panel rounded-xl p-md flex items-center gap-md">
+    <div className="glass-panel rounded-2xl p-md flex items-center gap-md motion-safe-ui">
       <Skeleton className="w-12 h-12 rounded-full" />
       <div className="flex-1 space-y-2">
         <Skeleton className="h-3 w-24" />
