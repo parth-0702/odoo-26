@@ -73,9 +73,14 @@ export const mockFuelLogs: FuelLog[] = [
 ];
 
 export const mockExpenses: Expense[] = [
-  { _id: "e1", category: "tolls", description: "FASTag — Mumbai-Pune expressway", amount: 850, currency: "INR", date: days(-1), vehicle: mockVehicles[0], status: "approved" },
-  { _id: "e2", category: "maintenance", description: "50k service parts", amount: 18500, currency: "INR", date: days(0), vehicle: mockVehicles[2], status: "pending" },
-  { _id: "e3", category: "insurance", description: "Fleet policy renewal", amount: 145000, currency: "INR", date: days(-10), status: "approved" },
+  { _id: "e1", category: "tolls", description: "FASTag — Mumbai-Pune expressway", amount: 850, currency: "INR", date: days(-1), vehicle: mockVehicles[0], status: "approved", recordedBy: mockUsers[2] },
+  { _id: "e2", category: "maintenance", description: "50k service parts", amount: 18500, currency: "INR", date: days(0), vehicle: mockVehicles[2], status: "pending", recordedBy: mockUsers[1] },
+  { _id: "e3", category: "insurance", description: "Fleet policy renewal", amount: 145000, currency: "INR", date: days(-10), status: "approved", recordedBy: mockUsers[0] },
+  { _id: "e4", category: "fuel", description: "Emergency Diesel Refill NH8", amount: 4800, currency: "INR", date: days(-2), vehicle: mockVehicles[0], status: "pending", recordedBy: mockUsers[2] },
+  { _id: "e5", category: "permits", description: "State border permit fee", amount: 2500, currency: "INR", date: days(-4), vehicle: mockVehicles[4], status: "approved", recordedBy: mockUsers[2] },
+  { _id: "e6", category: "other", description: "Loading bay assistant tips", amount: 350, currency: "INR", date: days(-1), vehicle: mockVehicles[1], status: "rejected", recordedBy: mockUsers[2] },
+  { _id: "e7", category: "maintenance", description: "New tyre replacement for prime mover", amount: 12000, currency: "INR", date: days(-5), vehicle: mockVehicles[0], status: "approved", recordedBy: mockUsers[1] },
+  { _id: "e8", category: "tolls", description: "Delhi border toll taxes", amount: 1200, currency: "INR", date: days(-3), vehicle: mockVehicles[4], status: "pending", recordedBy: mockUsers[2] },
 ];
 
 export const mockDocuments: VehicleDocument[] = [

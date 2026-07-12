@@ -45,21 +45,21 @@ body {
 /* ─── Reusable Components ───────────────────────────────────────────────────── */
 @layer components {
   .glass-panel {
-    @apply bg-surface border-[2.5px] border-outline shadow-pop rounded-2xl;
+    @apply bg-surface border border-outline shadow-pop rounded-2xl;
   }
   .glass-dark {
-    background: #2b2b2f;
-    border: 2.5px solid #2b2b2f;
+    background: #1e1e24;
+    border: 1px solid rgba(255,255,255,0.08);
   }
   .glow-primary {
-    box-shadow: 0 0 0 rgba(181, 18, 27, 0);
+    box-shadow: 0 4px 12px rgba(181, 18, 27, 0.05);
   }
   .glow-active {
-    box-shadow: 0 0 0 rgba(181, 18, 27, 0);
+    box-shadow: 0 4px 12px rgba(181, 18, 27, 0.1);
   }
   .input-glow:focus-within {
-    @apply border-primary;
-    box-shadow: 4px 4px 0 0 rgba(181, 18, 27, 1);
+    @apply border-primary/50;
+    box-shadow: 0 4px 12px rgba(181, 18, 27, 0.05);
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -71,19 +71,17 @@ body {
 
   /* Button micro-interactions */
   .btn-primary {
-    @apply relative overflow-hidden;
+    @apply relative overflow-hidden text-white font-semibold rounded-lg px-4 py-2 border border-primary;
     background: #b5121b;
-    border: 2.5px solid #2b2b2f;
-    box-shadow: 3px 3px 0 0 rgba(43, 43, 47, 1);
+    box-shadow: 0 4px 12px rgba(181, 18, 27, 0.15);
     transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .btn-primary:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 0 rgba(43, 43, 47, 1);
+    background: #900e14;
+    box-shadow: 0 6px 16px rgba(181, 18, 27, 0.25);
   }
   .btn-primary:active {
-    transform: translate(0, 0);
-    box-shadow: 1px 1px 0 0 rgba(43, 43, 47, 1);
+    transform: scale(0.98);
   }
 
   /* Card hover */
@@ -92,8 +90,8 @@ body {
     will-change: transform, box-shadow;
   }
   .card-hover:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0 0 rgba(43, 43, 47, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
   }
 
   /* Table row hover */
@@ -107,12 +105,12 @@ body {
 
   /* Sticker-style tag */
   .sticker-tag {
-    @apply inline-flex items-center gap-1 rounded-full border-2 border-outline px-3 py-1 text-[11px] font-bold uppercase tracking-wide shadow-pop-sm bg-surface;
+    @apply inline-flex items-center gap-1 rounded-full border border-outline px-3 py-1 text-[11px] font-semibold uppercase tracking-wide bg-surface shadow-sm;
   }
 
   /* Bento tile base */
   .bento-tile {
-    @apply relative rounded-2xl border-[2.5px] border-outline bg-surface shadow-pop overflow-hidden;
+    @apply relative rounded-2xl border border-outline bg-surface shadow-pop overflow-hidden;
   }
 }
 

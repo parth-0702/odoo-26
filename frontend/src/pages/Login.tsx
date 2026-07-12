@@ -11,6 +11,8 @@ const ROLE_ICONS: Record<Role, string> = {
   admin: "shield_person",
   fleet_manager: "local_shipping",
   driver: "badge",
+  safety_officer: "health_and_safety",
+  financial_analyst: "query_stats",
   staff: "groups",
 };
 
@@ -18,6 +20,8 @@ const CARD_ACCENTS: Record<Role, string> = {
   admin: "bg-sunshine/40",
   fleet_manager: "bg-mint/30",
   driver: "bg-sky/25",
+  safety_officer: "bg-mint/20",
+  financial_analyst: "bg-violet/30",
   staff: "bg-violet/20",
 };
 
