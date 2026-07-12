@@ -12,8 +12,8 @@ const styles: Record<Variant, string> = {
   primary:
     "bg-primary-container text-on-primary-container glow-primary hover:brightness-110",
   secondary:
-    "bg-surface-variant/60 text-on-surface border border-white/10 hover:bg-white/10",
-  ghost: "text-on-surface-variant hover:text-on-surface hover:bg-white/5",
+    "bg-surface-variant/60 text-on-surface border border-black/10 hover:bg-black/5",
+  ghost: "text-on-surface-variant hover:text-on-surface hover:bg-black/5",
   danger: "bg-error-container text-error hover:brightness-110",
 };
 

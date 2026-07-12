@@ -102,7 +102,7 @@ export function Dashboard() {
           />
           <div className="space-y-2">
             {tList.slice(0, 5).map((t) => (
-              <div key={t._id} className="flex items-center justify-between p-3 rounded-lg bg-surface-variant/20 border border-white/5">
+              <div key={t._id} className="flex items-center justify-between p-3 rounded-lg bg-surface-variant/40 border border-black/[0.06]">
                 <div className="min-w-0">
                   <div className="text-body-md text-on-surface font-medium">{t.reference}</div>
                   <div className="text-[12px] text-on-surface-variant truncate">{t.origin} → {t.destination}</div>
@@ -122,7 +122,7 @@ export function Dashboard() {
             <StatusLine icon="badge" label="Driver risk" value={`${atRiskDrivers} at risk`} tone={driverStatusTone.at_risk} />
             <StatusLine icon="build" label="Maintenance" value={`${overdueMaint} due`} tone="warning" />
             <StatusLine icon="description" label="Documents" value={`${expiringDocs} expiring`} tone="warning" />
-            <div className="pt-2 mt-2 border-t border-white/5">
+            <div className="pt-2 mt-2 border-t border-black/[0.06]">
               <div className="text-label-caps uppercase text-on-surface-variant/60 mb-2">Docs expiring soon</div>
               {docList
                 .filter((d) => (daysUntil(d.expiryDate) ?? 999) < 30)
@@ -130,7 +130,7 @@ export function Dashboard() {
                 .map((d) => (
                   <div key={d._id} className="flex justify-between text-[12px] py-1">
                     <span className="text-on-surface-variant">{titleCase(d.docType)}</span>
-                    <span className="text-tertiary">{daysUntil(d.expiryDate)}d</span>
+                    <span className="text-warning">{daysUntil(d.expiryDate)}d</span>
                   </div>
                 ))}
             </div>
@@ -167,13 +167,13 @@ export function Dashboard() {
             title="Smart Assessments"
             action={<span className="flex items-center gap-1 text-[11px] text-primary"><Icon name="auto_awesome" className="text-[16px]" filled />AI-reviewed</span>}
           />
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-black/[0.06]">
             {mockAssessments.map((a) => {
               const v = typeof a.vehicle === "object" ? a.vehicle : undefined;
               return (
                 <div key={a._id} className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 shrink-0 rounded-lg bg-surface-variant/30 border border-white/5 flex items-center justify-center">
+                    <div className="w-10 h-10 shrink-0 rounded-lg bg-surface-variant/50 border border-black/[0.06] flex items-center justify-center">
                       <Icon name="local_shipping" className="text-[18px] text-on-surface-variant" />
                     </div>
                     <div className="min-w-0">
@@ -194,9 +194,9 @@ export function Dashboard() {
 
 function StatusCount({ label, value, tone }: { label: string; value: number; tone: "success" | "neutral" | "warning" | "danger" }) {
   const dot: Record<string, string> = {
-    success: "bg-secondary",
+    success: "bg-success",
     neutral: "bg-outline",
-    warning: "bg-tertiary",
+    warning: "bg-warning",
     danger: "bg-error",
   };
   return (

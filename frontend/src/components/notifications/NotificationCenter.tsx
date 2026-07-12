@@ -16,7 +16,7 @@ const ICONS: Record<AppNotification["type"], string> = {
 
 const SEVERITY: Record<AppNotification["severity"], string> = {
   info: "text-on-surface-variant",
-  warning: "text-tertiary",
+  warning: "text-warning",
   critical: "text-error",
 };
 
@@ -40,8 +40,8 @@ export function NotificationCenter({ open, onClose }: { open: boolean; onClose: 
   return (
     <>
       <div className="fixed inset-0 z-40" onClick={onClose} />
-      <div className="absolute right-0 top-14 z-50 w-[380px] max-w-[calc(100vw-2rem)] glass-panel rounded-xl border border-white/10 shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between px-md h-14 border-b border-white/5">
+      <div className="absolute right-0 top-14 z-50 w-[380px] max-w-[calc(100vw-2rem)] glass-panel rounded-xl border border-black/10 shadow-2xl overflow-hidden">
+        <div className="flex items-center justify-between px-md h-14 border-b border-black/5">
           <div className="flex items-center gap-2">
             <h3 className="text-body-lg font-headline text-on-surface">Notifications</h3>
             {unread > 0 && (
@@ -70,7 +70,7 @@ export function NotificationCenter({ open, onClose }: { open: boolean; onClose: 
                   if (!n.read) markRead(n._id);
                   if (n.link) { navigate(n.link); onClose(); }
                 }}
-                className={`w-full flex gap-3 px-md py-3 text-left border-b border-white/5 transition-colors hover:bg-white/5 ${
+                className={`w-full flex gap-3 px-md py-3 text-left border-b border-black/5 transition-colors hover:bg-black/[0.03] ${
                   n.read ? "opacity-60" : ""
                 }`}
               >

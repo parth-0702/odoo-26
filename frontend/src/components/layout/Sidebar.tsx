@@ -7,6 +7,12 @@ import { Icon } from "@/components/ui/Icon";
 import { initials } from "@/lib/format";
 import clsx from "clsx";
 
+/**
+ * The sidebar is an intentionally dark "island" regardless of the app's light
+ * theme (matches the reference design: charcoal nav rail + light content area).
+ * It uses hardcoded dark colors rather than the semantic surface/on-surface
+ * tokens, which are tuned for the light content area.
+ */
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   const { user, role, logout } = useAuth();
   const items = navForRole(role);
@@ -17,17 +23,17 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   }, {});
 
   return (
-    <aside className="w-[280px] h-full bg-surface-container-low border-r border-white/5 flex flex-col fixed left-0 top-0 z-30">
+    <aside className="w-[280px] h-full bg-secondary border-r border-black/20 flex flex-col fixed left-0 top-0 z-30">
       {/* Brand */}
-      <div className="h-16 flex items-center gap-3 px-lg border-b border-white/5">
-        <div className="w-10 h-10 rounded-lg overflow-hidden bg-surface-container border border-primary/30 flex items-center justify-center glow-primary">
+      <div className="h-16 flex items-center gap-3 px-lg border-b border-white/10">
+        <div className="w-10 h-10 rounded-lg overflow-hidden bg-primary flex items-center justify-center shrink-0">
           <img src={BRAND.logoUrl} alt={BRAND.fullName} className="w-full h-full object-cover" />
         </div>
         <div>
-          <div className="font-display text-body-lg font-bold tracking-tight text-on-surface leading-none">
+          <div className="font-display text-body-lg font-bold tracking-tight text-white leading-none">
             {BRAND.name}
           </div>
-          <div className="text-[10px] uppercase tracking-wider text-on-surface-variant mt-1">
+          <div className="text-[10px] uppercase tracking-wider text-white/50 mt-1">
             Transport MS
           </div>
         </div>
@@ -37,7 +43,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       <nav className="flex-1 overflow-y-auto scrollbar-hide py-md px-sm">
         {Object.entries(sections).map(([section, secItems]) => (
           <div key={section} className="mb-md">
-            <div className="px-md mb-1 text-label-caps uppercase text-on-surface-variant/60">
+            <div className="px-md mb-1 text-label-caps uppercase text-white/35">
               {SECTION_LABELS[section as NavItem["section"]]}
             </div>
             {secItems.map((item) => (
@@ -48,10 +54,10 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                 onClick={onNavigate}
                 className={({ isActive }: { isActive: boolean }) =>
                   clsx(
-                    "flex items-center gap-3 px-md py-2.5 rounded-lg text-body-md transition-colors mb-0.5",
+                    "flex items-center gap-3 px-md py-2.5 rounded-lg text-body-md transition-colors mb-0.5 border",
                     isActive
-                      ? "bg-primary-container/15 text-primary border border-primary/20"
-                      : "text-on-surface-variant hover:text-on-surface hover:bg-white/5 border border-transparent"
+                      ? "bg-primary text-white border-primary"
+                      : "text-white/60 hover:text-white hover:bg-white/5 border-transparent"
                   )
                 }
               >
@@ -64,19 +70,19 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       </nav>
 
       {/* User */}
-      <div className="border-t border-white/5 p-md flex items-center gap-3">
-        <div className="w-9 h-9 rounded-full bg-primary-container/20 border border-primary/30 flex items-center justify-center text-primary text-data-tabular font-bold">
+      <div className="border-t border-white/10 p-md flex items-center gap-3">
+        <div className="w-9 h-9 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-white text-data-tabular font-bold">
           {user ? initials(user.name) : "?"}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-body-md text-on-surface truncate">{user?.name}</div>
-          <div className="text-[11px] text-on-surface-variant truncate">
+          <div className="text-body-md text-white truncate">{user?.name}</div>
+          <div className="text-[11px] text-white/50 truncate">
             {role ? ROLE_LABELS[role] : ""}
           </div>
         </div>
         <button
           onClick={logout}
-          className="text-on-surface-variant hover:text-error transition-colors p-1"
+          className="text-white/50 hover:text-primary transition-colors p-1"
           title="Sign out"
         >
           <Icon name="logout" className="text-[20px]" />

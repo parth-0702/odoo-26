@@ -46,10 +46,10 @@ export function Documents() {
                     </div>
                     <Badge tone={docStatusTone[d.status]}>{titleCase(d.status)}</Badge>
                   </div>
-                  <div className="flex items-center justify-between text-[12px] pt-2 border-t border-white/5">
+                  <div className="flex items-center justify-between text-[12px] pt-2 border-t border-black/[0.06]">
                     <span className="text-on-surface-variant">Expires {formatDate(d.expiryDate)}</span>
                     {days !== null && (
-                      <span className={days < 0 ? "text-error" : days < 30 ? "text-tertiary" : "text-on-surface-variant"}>
+                      <span className={days < 0 ? "text-error" : days < 30 ? "text-warning" : "text-on-surface-variant"}>
                         {days < 0 ? `${Math.abs(days)}d overdue` : `${days}d left`}
                       </span>
                     )}

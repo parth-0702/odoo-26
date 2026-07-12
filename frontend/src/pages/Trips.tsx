@@ -70,7 +70,7 @@ export function Trips() {
                     </Card>
                   ))}
                   {(byStatus[col.status] ?? []).length === 0 && (
-                    <div className="text-center text-[12px] text-on-surface-variant/50 py-md border border-dashed border-white/5 rounded-lg">
+                    <div className="text-center text-[12px] text-on-surface-variant/50 py-md border border-dashed border-black/10 rounded-lg">
                       Empty
                     </div>
                   )}

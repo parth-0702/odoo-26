@@ -54,7 +54,7 @@ export function VehicleDetail() {
         <StatBox label="Fuel Type" value={titleCase(v.fuelType)} icon="local_gas_station" />
       </div>
 
-      <div className="flex gap-1 border-b border-white/5 mb-md overflow-x-auto scrollbar-hide">
+      <div className="flex gap-1 border-b border-black/[0.06] mb-md overflow-x-auto scrollbar-hide">
         {TABS.map((t) => (
           <button
             key={t}
