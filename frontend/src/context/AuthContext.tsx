@@ -15,6 +15,19 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+const fallbackAuth: AuthContextValue = {
+  user: null,
+  role: undefined,
+  loading: true,
+  login: async () => {
+    throw new Error("AuthProvider is not available");
+  },
+  logout: () => {
+    /* noop */
+  },
+  can: () => false,
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -56,6 +69,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 // eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  if (!ctx) {
+    if (import.meta.env.DEV) {
+      console.warn("useAuth called outside AuthProvider; falling back to a safe no-op auth state.");
+    }
+    return fallbackAuth;
+  }
   return ctx;
 }
