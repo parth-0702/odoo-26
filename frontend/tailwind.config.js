@@ -108,6 +108,68 @@ export default {
         shimmer: {
           "100%": { transform: "translateX(100%)" },
         },
+        "truck-enter": {
+          "0%": { transform: "translateX(-110%)" },
+          "100%": { transform: "translateX(0%)" },
+        },
+        "truck-exit": {
+          "0%": { transform: "translateX(0%)", opacity: "1" },
+          "100%": { transform: "translateX(110%)", opacity: "0" },
+        },
+        "wheel-spin": {
+          to: { transform: "rotate(360deg)" },
+        },
+        "suspension-bob": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-2px)" },
+        },
+        "dust-puff": {
+          "0%": { transform: "translate(0,0) scale(0)", opacity: "0.7" },
+          "50%": { opacity: "0.4" },
+          "100%": { transform: "translate(-24px,-10px) scale(2.5)", opacity: "0" },
+        },
+        "headlight-flicker": {
+          "0%, 100%": { opacity: "0.7" },
+          "50%": { opacity: "1" },
+        },
+        "loader-fade-in": {
+          from: { opacity: "0", transform: "scale(0.97)" },
+          to: { opacity: "1", transform: "scale(1)" },
+        },
+        "loader-fade-out": {
+          from: { opacity: "1", transform: "scale(1)" },
+          to: { opacity: "0", transform: "scale(1.02)" },
+        },
+        "text-rise": {
+          from: { opacity: "0", transform: "translateY(14px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "logo-pop": {
+          "0%": { opacity: "0", transform: "scale(0.7) rotate(-6deg)" },
+          "70%": { transform: "scale(1.08) rotate(1deg)" },
+          "100%": { opacity: "1", transform: "scale(1) rotate(0deg)" },
+        },
+        "marker-pop": {
+          "0%": { opacity: "0", transform: "translate(-50%,-100%) scale(0.3)" },
+          "70%": { transform: "translate(-50%,-100%) scale(1.15)" },
+          "100%": { opacity: "1", transform: "translate(-50%,-100%) scale(1)" },
+        },
+        "marker-pulse": {
+          "0%, 100%": { transform: "scale(0.8)", opacity: "0" },
+          "40%": { transform: "scale(1.6)", opacity: "0.5" },
+          "80%": { transform: "scale(2.2)", opacity: "0" },
+        },
+        "count-up": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "bar-grow": {
+          from: { transform: "scaleY(0)" },
+          to: { transform: "scaleY(1)" },
+        },
+        "road-dash": {
+          to: { strokeDashoffset: "-40" },
+        },
       },
       animation: {
         "fade-in-up": "fade-in-up 0.55s cubic-bezier(0.22,1,0.36,1) forwards",
@@ -119,6 +181,22 @@ export default {
         "float-gentle": "float-gentle 5s ease-in-out infinite",
         "scan-line": "scan-line 1.8s ease-in-out infinite",
         shimmer: "shimmer 1.5s infinite",
+        "truck-enter": "truck-enter 0.9s cubic-bezier(0.22,1,0.36,1) forwards",
+        "truck-exit": "truck-exit 0.6s cubic-bezier(0.55,0,1,0.45) forwards",
+        "wheel-spin": "wheel-spin 0.4s linear infinite",
+        "suspension-bob": "suspension-bob 0.5s ease-in-out infinite",
+        "dust-puff": "dust-puff 0.8s ease-out infinite",
+        "dust-puff2": "dust-puff2 0.9s ease-out 0.2s infinite",
+        "headlight-flicker": "headlight-flicker 1.5s ease-in-out infinite",
+        "loader-fade-in": "loader-fade-in 0.5s cubic-bezier(0.22,1,0.36,1) forwards",
+        "loader-fade-out": "loader-fade-out 0.45s cubic-bezier(0.55,0,1,0.45) forwards",
+        "text-rise": "text-rise 0.7s cubic-bezier(0.22,1,0.36,1) forwards",
+        "logo-pop": "logo-pop 0.6s cubic-bezier(0.22,1,0.36,1) forwards",
+        "marker-pop": "marker-pop 0.5s cubic-bezier(0.22,1,0.36,1) forwards",
+        "count-up": "count-up 0.5s cubic-bezier(0.22,1,0.36,1) forwards",
+        "bar-grow": "bar-grow 0.8s cubic-bezier(0.22,1,0.36,1) forwards",
+        "road-dash": "road-dash 0.4s linear infinite",
+        "marker-pulse": "marker-pulse 2.4s ease-in-out infinite",
       },
     },
   },
