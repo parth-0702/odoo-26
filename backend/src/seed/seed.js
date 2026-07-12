@@ -69,9 +69,20 @@ async function run() {
     { vehicle: vehicles[0]._id, driver: drivers[0]._id, liters: 120, pricePerLiter: 96.5, totalCost: 11580, odometer: 84500, efficiencyKmpl: 4.2, station: "IOC Highway" },
   ]);
 
+  const seededUsers = await User.find();
+  const driverUser = seededUsers.find(u => u.role === ROLES.DRIVER)?._id;
+  const managerUser = seededUsers.find(u => u.role === ROLES.FLEET_MANAGER)?._id;
+  const adminUser = seededUsers.find(u => u.role === ROLES.ADMIN)?._id;
+
   await Expense.create([
-    { category: "tolls", description: "FASTag — Mumbai-Pune expressway", amount: 850, vehicle: vehicles[0]._id, status: "approved" },
-    { category: "maintenance", description: "50k service parts", amount: 18500, vehicle: vehicles[2]._id, status: "pending" },
+    { category: "tolls", description: "FASTag — Mumbai-Pune expressway", amount: 850, vehicle: vehicles[0]._id, status: "approved", recordedBy: driverUser },
+    { category: "maintenance", description: "50k service parts", amount: 18500, vehicle: vehicles[2]._id, status: "pending", recordedBy: managerUser },
+    { category: "insurance", description: "Fleet policy renewal", amount: 145000, status: "approved", recordedBy: adminUser },
+    { category: "fuel", description: "Emergency Diesel Refill NH8", amount: 4800, vehicle: vehicles[0]._id, status: "pending", recordedBy: driverUser },
+    { category: "permits", description: "State border permit fee", amount: 2500, vehicle: vehicles[1]._id, status: "approved", recordedBy: driverUser },
+    { category: "other", description: "Loading bay assistant tips", amount: 350, vehicle: vehicles[1]._id, status: "rejected", recordedBy: driverUser },
+    { category: "maintenance", description: "New tyre replacement for prime mover", amount: 12000, vehicle: vehicles[0]._id, status: "approved", recordedBy: managerUser },
+    { category: "tolls", description: "Delhi border toll taxes", amount: 1200, vehicle: vehicles[1]._id, status: "pending", recordedBy: driverUser },
   ]);
 
   await VehicleDocument.create([

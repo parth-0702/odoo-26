@@ -8,8 +8,12 @@ const ROLES = {
   ADMIN: "admin",
   FLEET_MANAGER: "fleet_manager",
   DRIVER: "driver",
+  SAFETY_OFFICER: "safety_officer",
+  FINANCIAL_ANALYST: "financial_analyst",
   STAFF: "staff",
 };
+
+const ROLE_VALUES = Object.values(ROLES);
 
 // Resources map 1:1 to the domain models.
 const RESOURCES = [
@@ -24,6 +28,8 @@ const RESOURCES = [
   "notification",
   "report",
   "user",
+  "gps",
+  "analytics",
 ];
 
 const ACTIONS = ["read", "create", "update", "delete"];
@@ -34,34 +40,36 @@ const RU = ["read", "update"]; // read + update, no create/delete
 
 /**
  * Permission matrix: role -> resource -> allowed actions.
- * Anything not listed is implicitly denied.
- *
- *  - Admin:          full CRUD on every module.
- *  - Fleet Manager:  full CRUD on the core fleet modules (vehicles, drivers,
- *                     trips/routes, shipments, maintenance, documents);
- *                     read-only on finance/reporting.
- *  - Driver:         read-only on fleet data, can update the trips/shipments
- *                     assigned to them (e.g. progress status); no create/delete.
- *  - Staff:          read-only across the board (general visibility, no edits).
  */
 const MATRIX = {
   [ROLES.ADMIN]: {
     vehicle: ALL, driver: ALL, trip: ALL, shipment: ALL, maintenance: ALL,
     fuel: ALL, expense: ALL, document: ALL, notification: ALL,
-    report: ALL, user: ALL,
+    report: ALL, user: ALL, gps: ALL, analytics: ALL,
   },
   [ROLES.FLEET_MANAGER]: {
     vehicle: ALL, driver: ALL, trip: ALL, shipment: ALL, maintenance: ALL,
-    document: ALL, fuel: RO, expense: RO, report: RO,
-    notification: RU,
+    document: ALL, fuel: RO, expense: ALL, report: RO,
+    notification: RU, gps: ALL, analytics: RO,
   },
   [ROLES.DRIVER]: {
     vehicle: RO, driver: RO, trip: RU, shipment: RU,
-    document: RO, notification: RU,
+    document: RO, notification: RU, expense: ["read", "create"],
+    fuel: ["read", "create"], gps: RO,
+  },
+  [ROLES.SAFETY_OFFICER]: {
+    vehicle: RU, driver: ALL, trip: RO, shipment: RO,
+    maintenance: ALL, document: RO, notification: RU,
+    gps: RO, analytics: RO,
+  },
+  [ROLES.FINANCIAL_ANALYST]: {
+    vehicle: RO, driver: RO, trip: RO, shipment: RO,
+    fuel: ALL, expense: ALL, report: RO, analytics: ALL,
   },
   [ROLES.STAFF]: {
     vehicle: RO, driver: RO, trip: RO, shipment: RO,
     maintenance: RO, document: RO, notification: RU,
+    gps: RO,
   },
 };
 
@@ -70,4 +78,4 @@ function can(role, resource, action) {
   return Array.isArray(allowed) && allowed.includes(action);
 }
 
-module.exports = { ROLES, RESOURCES, ACTIONS, MATRIX, can };
+module.exports = { ROLES, ROLE_VALUES, RESOURCES, ACTIONS, MATRIX, can };

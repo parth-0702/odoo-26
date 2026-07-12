@@ -12,5 +12,7 @@ export const DEMO_CREDENTIALS: Record<Role, { email: string; password: string }>
   admin: { email: "admin@arjuna.com", password: "Password123!" },
   fleet_manager: { email: "manager@arjuna.com", password: "Password123!" },
   driver: { email: "driver@arjuna.com", password: "Password123!" },
+  safety_officer: { email: "safety@arjuna.com", password: "Password123!" },
+  financial_analyst: { email: "finance@arjuna.com", password: "Password123!" },
   staff: { email: "staff@arjuna.com", password: "Password123!" },
 };

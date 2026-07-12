@@ -2,6 +2,8 @@ export type Role =
   | "admin"
   | "fleet_manager"
   | "driver"
+  | "safety_officer"
+  | "financial_analyst"
   | "staff";
 
 export interface User {
@@ -135,6 +137,8 @@ export interface FuelLog {
   station?: string;
 }
 
+export type ExpenseStatus = "pending" | "approved" | "rejected";
+
 export interface Expense {
   _id: string;
   category: "fuel" | "maintenance" | "tolls" | "insurance" | "salary" | "permits" | "other";
@@ -144,7 +148,8 @@ export interface Expense {
   date: string;
   vehicle?: Vehicle | string;
   trip?: Trip | string;
-  status: "pending" | "approved" | "rejected";
+  status: ExpenseStatus;
+  recordedBy?: User | string;
 }
 
 export type NotificationType =
