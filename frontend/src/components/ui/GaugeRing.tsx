@@ -6,12 +6,12 @@ interface GaugeRingProps {
 }
 
 function toneForScore(value: number): string {
-  if (value >= 85) return "#1E8E5A"; // success
-  if (value >= 65) return "#C77700"; // warning
-  return "#D32F2F"; // error
+  if (value >= 85) return "#0F9D6E"; // success
+  if (value >= 65) return "#B8860B"; // warning
+  return "#B5121B"; // error
 }
 
-export function GaugeRing({ value, size = 64, strokeWidth = 6, label = "Safety" }: GaugeRingProps) {
+export function GaugeRing({ value, size = 64, strokeWidth = 7, label = "Safety" }: GaugeRingProps) {
   const clamped = Math.max(0, Math.min(100, value));
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -21,7 +21,7 @@ export function GaugeRing({ value, size = 64, strokeWidth = 6, label = "Safety" 
   return (
     <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={strokeWidth} />
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="rgba(43,43,47,0.1)" strokeWidth={strokeWidth} />
         <circle
           cx={size / 2}
           cy={size / 2}

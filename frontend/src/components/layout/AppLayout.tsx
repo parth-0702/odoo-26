@@ -20,7 +20,7 @@ export function AppLayout() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-on-surface bg-grid-pattern motion-safe-ui">
+    <div className="min-h-screen bg-background text-on-surface motion-safe-ui">
       {/* Desktop sidebar */}
       <div className="hidden lg:block">
         <Sidebar />
