@@ -67,16 +67,18 @@ export function CinematicLoader({ onDone }: Props) {
       className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden select-none
         ${fading ? "animate-loader-fade-out" : "animate-loader-fade-in"}`}
       style={{
-        background: "linear-gradient(160deg, #080c10 0%, #0e1419 40%, #111820 100%)",
+        backgroundColor: "#F8F8F8",
+        backgroundImage: "radial-gradient(rgba(43,43,47,0.09) 1.4px, transparent 1.4px)",
+        backgroundSize: "22px 22px",
       }}
     >
-      {/* Ambient gradient orbs */}
+      {/* Ambient accent blobs */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse 60% 40% at 50% 30%, rgba(181,18,27,0.18) 0%, transparent 70%), " +
-            "radial-gradient(ellipse 40% 30% at 20% 80%, rgba(255,120,30,0.06) 0%, transparent 60%)",
+            "radial-gradient(ellipse 50% 35% at 15% 15%, rgba(123,97,255,0.10) 0%, transparent 70%), " +
+            "radial-gradient(ellipse 45% 35% at 90% 85%, rgba(181,18,27,0.08) 0%, transparent 65%)",
         }}
       />
 
@@ -84,10 +86,10 @@ export function CinematicLoader({ onDone }: Props) {
       <div className="relative flex flex-col items-center mb-10 z-10">
         {/* Logo badge */}
         <div
-          className="w-20 h-20 rounded-2xl overflow-hidden shadow-[0_0_40px_rgba(181,18,27,0.5)] mb-5"
+          className="w-20 h-20 rounded-2xl overflow-hidden border-[3px] border-[#2B2B2F] shadow-pop-lg mb-5"
           style={{
             animation: "logo-pop 0.6s cubic-bezier(0.22,1,0.36,1) 0.1s both",
-            background: "linear-gradient(135deg,#C41520,#8B0D15)",
+            background: "#B5121B",
           }}
         >
           <img
@@ -99,13 +101,13 @@ export function CinematicLoader({ onDone }: Props) {
 
         {/* Company name */}
         <h1
-          className="text-white font-display font-bold tracking-tight text-2xl sm:text-3xl text-center"
+          className="text-[#2B2B2F] font-display font-bold tracking-tight text-2xl sm:text-3xl text-center"
           style={{ animation: "text-rise 0.7s cubic-bezier(0.22,1,0.36,1) 0.35s both" }}
         >
           {BRAND.name}
         </h1>
         <p
-          className="text-white/40 text-xs sm:text-sm tracking-[0.2em] uppercase mt-1 font-body text-center"
+          className="text-[#63636A] text-xs sm:text-sm tracking-[0.2em] uppercase mt-1 font-body font-bold text-center"
           style={{ animation: "text-rise 0.7s cubic-bezier(0.22,1,0.36,1) 0.5s both" }}
         >
           Transport Management System
@@ -118,13 +120,13 @@ export function CinematicLoader({ onDone }: Props) {
         style={{ animation: "fade-in 0.5s ease 0.65s both" }}
       >
         {/* Road */}
-        <div className="relative h-20 rounded-2xl overflow-hidden" style={{ background: "#16202a" }}>
+        <div className="relative h-20 rounded-2xl overflow-hidden border-[3px] border-[#2B2B2F] shadow-pop" style={{ background: "#EDEDED" }}>
           {/* Road texture */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                "repeating-linear-gradient(90deg, transparent 0px, transparent 38px, rgba(255,255,255,0.07) 38px, rgba(255,255,255,0.07) 40px)",
+                "repeating-linear-gradient(90deg, transparent 0px, transparent 38px, rgba(43,43,47,0.06) 38px, rgba(43,43,47,0.06) 40px)",
             }}
           />
           {/* Center dashes — animated */}
@@ -134,7 +136,7 @@ export function CinematicLoader({ onDone }: Props) {
           >
             <line
               x1="0" y1="50%" x2="100%" y2="50%"
-              stroke="rgba(255,255,255,0.15)"
+              stroke="rgba(43,43,47,0.18)"
               strokeWidth="2"
               strokeDasharray="30 20"
               style={{ animation: "road-dash 0.35s linear infinite" }}
@@ -147,7 +149,7 @@ export function CinematicLoader({ onDone }: Props) {
             style={{
               width: `${truckLeft + 6}%`,
               background:
-                "linear-gradient(90deg, rgba(181,18,27,0.25) 0%, rgba(181,18,27,0.1) 100%)",
+                "linear-gradient(90deg, rgba(181,18,27,0.16) 0%, rgba(181,18,27,0.05) 100%)",
               transition: "width 0.35s cubic-bezier(0.22,1,0.36,1)",
             }}
           />
@@ -181,19 +183,18 @@ export function CinematicLoader({ onDone }: Props) {
 
         {/* ── Progress bar below road ──────────────────────────────────────── */}
         <div className="mt-4 flex items-center gap-3">
-          <div className="flex-1 h-1 rounded-full bg-white/10 overflow-hidden">
+          <div className="flex-1 h-2 rounded-full bg-[#2B2B2F]/10 overflow-hidden border border-[#2B2B2F]/15">
             <div
               className="h-full rounded-full"
               style={{
                 width: `${progress}%`,
-                background: "linear-gradient(90deg, #C41520, #FF6B35)",
+                background: "#B5121B",
                 transition: "width 0.38s cubic-bezier(0.22,1,0.36,1)",
-                boxShadow: "0 0 8px rgba(181,18,27,0.6)",
               }}
             />
           </div>
           <span
-            className="text-white/60 font-mono text-xs w-8 text-right tabular-nums"
+            className="text-[#2B2B2F] font-mono text-xs w-8 text-right tabular-nums font-bold"
             style={{ animation: "count-up 0.3s ease both" }}
           >
             {progress}%
@@ -202,7 +203,7 @@ export function CinematicLoader({ onDone }: Props) {
 
         {/* Loading label */}
         <p
-          className="text-white/30 text-[11px] tracking-widest uppercase text-center mt-3 font-body"
+          className="text-[#63636A] text-[11px] tracking-widest uppercase text-center mt-3 font-body font-bold"
           style={{ animation: "fade-in 0.5s ease 0.9s both" }}
         >
           {progress < 30 ? "Initialising systems…"

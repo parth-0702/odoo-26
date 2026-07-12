@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { SkeletonCard } from "@/components/ui/Skeleton";
 import { MiniBarChart } from "@/components/ui/MiniBarChart";
 import { Icon } from "@/components/ui/Icon";
+import { StarDoodle } from "@/components/ui/Doodles";
 import { ROLE_LABELS } from "@/config/permissions";
 import { formatCurrency, daysUntil } from "@/lib/format";
 import { vehicleStatusTone, tripStatusTone, driverStatusTone } from "@/lib/status";
@@ -87,7 +88,8 @@ export function Dashboard() {
         subtitle={`${role ? ROLE_LABELS[role] : ""} · Command Center Overview`}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-md mb-lg">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-md mb-lg relative">
+        <StarDoodle color="#7B61FF" className="hidden xl:block absolute -top-8 right-4 w-8 h-8 animate-wiggle" />
         {loading
           ? Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
           : kpis.map((k, i) => <StatCard key={k.label} {...k} delay={i * 80} />)}
@@ -98,7 +100,7 @@ export function Dashboard() {
         <Card className="lg:col-span-2 stagger-item" style={{ animationDelay: "120ms" }}>
           <CardHeader
             title="Active Operations"
-            action={<Link to="/trips" className="text-[12px] text-primary hover:underline">View all</Link>}
+            action={<Link to="/trips" className="sticker-tag bg-primary/10 text-primary border-primary hover:bg-primary hover:text-white transition-colors">View all</Link>}
           />
           <div className="space-y-2">
             {tList.slice(0, 5).map((t) => (
@@ -152,12 +154,12 @@ export function Dashboard() {
 
         <Card className="stagger-item" style={{ animationDelay: "320ms" }}>
           <CardHeader title="Fuel Costs" action={<span className="text-[11px] text-on-surface-variant">Last 6 months</span>} />
-          <MiniBarChart data={mockFuelCostTrend} color="#6ADB9E" formatValue={(v) => formatCurrency(v)} />
+          <MiniBarChart data={mockFuelCostTrend} color="#38D9A9" formatValue={(v) => formatCurrency(v)} />
         </Card>
 
         <Card className="stagger-item" style={{ animationDelay: "400ms" }}>
           <CardHeader title="Work Orders" action={<span className="text-[11px] text-on-surface-variant">Last 6 months</span>} />
-          <MiniBarChart data={mockWorkOrderTrend} color="#FFB693" />
+          <MiniBarChart data={mockWorkOrderTrend} color="#FFB347" />
         </Card>
       </div>
 
@@ -165,7 +167,7 @@ export function Dashboard() {
         <Card>
           <CardHeader
             title="Smart Assessments"
-            action={<span className="flex items-center gap-1 text-[11px] text-primary"><Icon name="auto_awesome" className="text-[16px]" filled />AI-reviewed</span>}
+            action={<span className="sticker-tag bg-violet/15 text-[#5A3FE0] border-violet"><Icon name="auto_awesome" className="text-[14px]" filled />AI-reviewed</span>}
           />
           <div className="divide-y divide-black/[0.06]">
             {mockAssessments.map((a) => {

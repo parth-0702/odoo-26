@@ -1,5 +1,5 @@
 /* ─── Google Fonts ─────────────────────────────────────────────────────────── */
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
 
 /* ─── Leaflet base ──────────────────────────────────────────────────────────── */
@@ -21,10 +21,9 @@ body,
 
 body {
   @apply bg-background text-on-surface font-body antialiased;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(181, 18, 27, 0.06), transparent 26%),
-    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.75), transparent 22%),
-    linear-gradient(180deg, #f8f9fb 0%, #f1f2f5 45%, #f8f9fb 100%);
+  background-color: #f8f8f8;
+  background-image: radial-gradient(rgba(43, 43, 47, 0.08) 1.4px, transparent 1.4px);
+  background-size: 22px 22px;
   overflow-x: hidden;
 }
 
@@ -46,12 +45,11 @@ body {
 /* ─── Reusable Components ───────────────────────────────────────────────────── */
 @layer components {
   .glass-panel {
-    @apply bg-surface/95 backdrop-blur-xl border border-black/[0.06] shadow-[0_2px_16px_rgba(20,20,25,0.06)];
+    @apply bg-surface border-[2.5px] border-outline shadow-pop rounded-2xl;
   }
   .glass-dark {
-    background: rgba(14, 17, 21, 0.88);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255,255,255,0.08);
+    background: #2b2b2f;
+    border: 2.5px solid #2b2b2f;
   }
   .glow-primary {
     box-shadow: 0 0 0 rgba(181, 18, 27, 0);
@@ -60,8 +58,8 @@ body {
     box-shadow: 0 0 0 rgba(181, 18, 27, 0);
   }
   .input-glow:focus-within {
-    @apply border-primary/50;
-    box-shadow: 0 0 0 3px rgba(181, 18, 27, 0.1);
+    @apply border-primary;
+    box-shadow: 4px 4px 0 0 rgba(181, 18, 27, 1);
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -74,38 +72,28 @@ body {
   /* Button micro-interactions */
   .btn-primary {
     @apply relative overflow-hidden;
-    background: linear-gradient(135deg, #C41520 0%, #8B0D15 100%);
-    box-shadow: 0 4px 14px rgba(181, 18, 27, 0.3);
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    background: #b5121b;
+    border: 2.5px solid #2b2b2f;
+    box-shadow: 3px 3px 0 0 rgba(43, 43, 47, 1);
+    transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 22px rgba(181, 18, 27, 0.4);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 0 rgba(43, 43, 47, 1);
   }
   .btn-primary:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(181, 18, 27, 0.3);
-  }
-  .btn-primary::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-  .btn-primary:active::after {
-    opacity: 1;
+    transform: translate(0, 0);
+    box-shadow: 1px 1px 0 0 rgba(43, 43, 47, 1);
   }
 
   /* Card hover */
   .card-hover {
-    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: all 0.18s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform, box-shadow;
   }
   .card-hover:hover {
-    transform: translateY(-2px) scale(1.005);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 rgba(43, 43, 47, 1);
   }
 
   /* Table row hover */
@@ -113,8 +101,18 @@ body {
     transition: background 0.2s ease, transform 0.2s ease;
   }
   .table-row-hover:hover {
-    background: rgba(181, 18, 27, 0.03);
+    background: rgba(181, 18, 27, 0.04);
     transform: translateX(2px);
+  }
+
+  /* Sticker-style tag */
+  .sticker-tag {
+    @apply inline-flex items-center gap-1 rounded-full border-2 border-outline px-3 py-1 text-[11px] font-bold uppercase tracking-wide shadow-pop-sm bg-surface;
+  }
+
+  /* Bento tile base */
+  .bento-tile {
+    @apply relative rounded-2xl border-[2.5px] border-outline bg-surface shadow-pop overflow-hidden;
   }
 }
 

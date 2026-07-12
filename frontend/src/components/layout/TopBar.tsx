@@ -17,7 +17,7 @@ export function TopBar({
   const [notifOpen, setNotifOpen] = useState(false);
 
   return (
-    <header className="h-16 sticky top-0 z-20 bg-surface/75 backdrop-blur-xl border-b border-white/5 flex items-center gap-3 px-md sm:px-lg shadow-[0_8px_28px_rgba(0,0,0,0.18)]">
+    <header className="h-16 sticky top-0 z-20 bg-background/90 backdrop-blur-xl border-b-[3px] border-[#2B2B2F] flex items-center gap-3 px-md sm:px-lg">
       <button
         onClick={onOpenMenu}
         className="lg:hidden text-on-surface-variant hover:text-on-surface p-1"
@@ -29,11 +29,11 @@ export function TopBar({
       {/* Search trigger */}
       <button
         onClick={onOpenSearch}
-        className="flex-1 max-w-md flex items-center gap-3 h-10 px-md rounded-xl bg-white/[0.03] border border-white/5 text-on-surface-variant hover:border-primary/30 hover:translate-y-[-1px] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        className="flex-1 max-w-md flex items-center gap-3 h-10 px-md rounded-full bg-surface border-2 border-outline text-on-surface-variant hover:-translate-y-0.5 hover:shadow-pop-sm transition-all duration-200 ease-out"
       >
         <Icon name="search" className="text-[20px]" />
-        <span className="text-body-md flex-1 text-left">Search fleet…</span>
-        <kbd className="hidden sm:inline text-[10px] px-1.5 py-0.5 rounded bg-surface-container border border-black/10">
+        <span className="text-body-md flex-1 text-left font-medium">Search fleet…</span>
+        <kbd className="hidden sm:inline text-[10px] px-1.5 py-0.5 rounded-full bg-surface-container border-2 border-outline/30 font-bold">
           Ctrl K
         </kbd>
       </button>
@@ -42,7 +42,7 @@ export function TopBar({
 
       {/* Role chip */}
       {role && (
-        <span className="hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-full bg-primary-container/20 border border-primary/20 text-primary text-data-tabular font-medium shadow-[0_0_18px_rgba(229,57,53,0.12)]">
+        <span className="hidden md:inline-flex items-center gap-2 h-9 px-3 rounded-full bg-sunshine border-2 border-outline text-[#2B2B2F] text-data-tabular font-bold shadow-pop-sm">
           <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
           {ROLE_LABELS[role]}
         </span>
@@ -52,12 +52,12 @@ export function TopBar({
       <div className="relative">
         <button
           onClick={() => setNotifOpen((o) => !o)}
-          className="relative w-10 h-10 rounded-xl flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-105"
+          className="relative w-10 h-10 rounded-full flex items-center justify-center text-on-surface border-2 border-outline bg-surface hover:-translate-y-0.5 hover:shadow-pop-sm transition-all duration-200 ease-out"
           aria-label="Notifications"
         >
-          <Icon name="notifications" className="text-[22px]" />
+          <Icon name="notifications" className="text-[20px]" />
           {unread > 0 && (
-            <span className="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 rounded-full bg-primary text-on-primary text-[10px] font-bold flex items-center justify-center">
+            <span className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-primary border-2 border-background text-white text-[10px] font-bold flex items-center justify-center">
               {unread > 9 ? "9+" : unread}
             </span>
           )}

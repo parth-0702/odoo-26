@@ -142,14 +142,14 @@ export function LiveMap() {
   }, [selected]);
 
   return (
-    <div className="page-enter h-[calc(100vh-8rem)] relative rounded-[1.5rem] overflow-hidden border border-white/6 shadow-xl">
+    <div className="page-enter h-[calc(100vh-8rem)] relative rounded-[1.5rem] overflow-hidden border-[3px] border-outline shadow-pop-lg">
       {/* The Leaflet Map Container */}
       <div ref={mapContainerRef} className="absolute inset-0 z-0 bg-[#e8ecf0]" />
 
       {/* Selected vehicle popover overlay */}
       {selected && (
         <div className="absolute bottom-4 left-4 sm:left-auto sm:right-4 z-[400] w-[280px]">
-          <Card className="!p-md relative shadow-2xl border border-white/20">
+          <Card className="!p-md relative shadow-pop-lg border-2 border-outline">
             <button
               onClick={() => setSelected(null)}
               className="absolute top-2 right-2 text-on-surface-variant hover:text-on-surface bg-black/5 rounded-full p-1"
@@ -186,7 +186,7 @@ export function LiveMap() {
                 <div className="text-[13px] text-on-surface font-data-tabular font-semibold">{selected.fuelLevel}<span className="text-[10px] font-normal text-on-surface-variant">%</span></div>
               </div>
             </div>
-            <div className="text-[11px] text-on-surface-variant flex items-center gap-1.5 mb-3 bg-white/50 p-2 rounded-lg">
+            <div className="text-[11px] text-on-surface-variant flex items-center gap-1.5 mb-3 bg-surface/80 border-2 border-outline/20 p-2 rounded-lg font-medium">
               <Icon name="location_on" className="text-[14px] text-primary" />
               <span className="truncate">{selected.location?.label ?? "Unknown location"}</span>
             </div>
@@ -199,7 +199,7 @@ export function LiveMap() {
 
       {/* Left panel: search + list */}
       <div className="absolute top-4 left-4 right-4 sm:right-auto sm:w-[340px] max-h-[calc(100%-2rem)] flex flex-col z-[400] pointer-events-none">
-        <Card className="!p-md mb-3 shrink-0 pointer-events-auto shadow-xl border-white/20 backdrop-blur-xl bg-surface/90">
+        <Card className="!p-md mb-3 shrink-0 pointer-events-auto shadow-pop border-2 border-outline bg-surface/95">
           <div className="flex items-center justify-between mb-md">
             <h3 className="text-body-lg font-headline font-bold text-on-surface">Live GPS Tracking</h3>
             <Badge tone="primary" pulse>{counts.active} live</Badge>
@@ -226,13 +226,13 @@ export function LiveMap() {
                 )}
               >
                 {f.label}
-                {f.key !== "all" && <span className={clsx("ml-1.5 px-1.5 py-0.5 rounded-full text-[9px]", filter === f.key ? "bg-white/20 text-white" : "bg-black/5 text-on-surface-variant")}>{counts[f.key as VehicleStatus]}</span>}
+                {f.key !== "all" && <span className={clsx("ml-1.5 px-1.5 py-0.5 rounded-full text-[9px]", filter === f.key ? "bg-white/25 text-white" : "bg-black/5 text-on-surface-variant")}>{counts[f.key as VehicleStatus]}</span>}
               </button>
             ))}
           </div>
         </Card>
 
-        <Card className="!p-0 flex-1 overflow-hidden flex flex-col pointer-events-auto shadow-xl border-white/20 backdrop-blur-xl bg-surface/90">
+        <Card className="!p-0 flex-1 overflow-hidden flex flex-col pointer-events-auto shadow-pop border-2 border-outline bg-surface/95">
           <div className="flex-1 overflow-y-auto scrollbar-hide p-2 space-y-1">
             {loading ? (
               <div className="flex justify-center py-xl"><span className="w-8 h-8 rounded-full border-2 border-black/10 border-t-primary animate-spin" /></div>
@@ -272,7 +272,7 @@ export function LiveMap() {
       </div>
 
       {/* Legend */}
-      <div className="hidden sm:flex absolute top-4 right-4 z-[400] gap-4 bg-surface/90 backdrop-blur-md border border-white/20 rounded-xl px-4 py-2.5 shadow-lg">
+      <div className="hidden sm:flex absolute top-4 right-4 z-[400] gap-4 bg-surface/95 backdrop-blur-md border-2 border-outline rounded-xl px-4 py-2.5 shadow-pop-sm">
         {(Object.keys(PIN_COLOR) as VehicleStatus[]).filter((s) => s !== "retired").map((s) => (
           <div key={s} className="flex items-center gap-2 text-[11px] font-semibold text-on-surface tracking-wide uppercase">
             <span className="w-2.5 h-2.5 rounded-full shadow-sm" style={{ background: PIN_COLOR[s] }} />

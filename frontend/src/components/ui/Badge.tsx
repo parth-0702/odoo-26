@@ -1,15 +1,17 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
 
-type Tone = "neutral" | "primary" | "success" | "warning" | "danger" | "info";
+type Tone = "neutral" | "primary" | "success" | "warning" | "danger" | "info" | "violet" | "sky";
 
 const tones: Record<Tone, string> = {
-  neutral: "bg-surface-variant/60 text-on-surface-variant border-black/10",
-  primary: "bg-primary/10 text-primary border-primary/25",
-  success: "bg-success/10 text-success border-success/25",
-  warning: "bg-warning/10 text-warning border-warning/25",
-  danger: "bg-error/10 text-error border-error/25",
-  info: "bg-black/5 text-on-surface-variant border-black/10",
+  neutral: "bg-surface-container text-on-surface-variant border-outline/40",
+  primary: "bg-primary/10 text-primary border-primary",
+  success: "bg-mint/20 text-[#0F7A57] border-[#0F9D6E]",
+  warning: "bg-sunshine/40 text-[#7A5A00] border-[#B8860B]",
+  danger: "bg-primary/10 text-primary border-primary",
+  info: "bg-sky/15 text-[#2361C9] border-sky",
+  violet: "bg-violet/15 text-[#5A3FE0] border-violet",
+  sky: "bg-sky/15 text-[#2361C9] border-sky",
 };
 
 export function Badge({
@@ -24,7 +26,7 @@ export function Badge({
   return (
     <span
       className={clsx(
-        "inline-flex items-center gap-1 rounded px-2 py-1 text-[10px] uppercase font-bold border tracking-wide",
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10px] uppercase font-bold border-2 tracking-wide",
         tones[tone]
       )}
     >
