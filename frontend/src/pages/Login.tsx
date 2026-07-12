@@ -4,16 +4,15 @@ import { useAuth } from "@/context/AuthContext";
 import { BRAND } from "@/config/brand";
 import { ROLE_LABELS } from "@/config/permissions";
 import { Icon } from "@/components/ui/Icon";
-import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
 import type { Role } from "@/types";
 
-const DEMO: { role: Role; email: string; icon: string }[] = [
-  { role: "fleet_manager", email: "manager@arjuna.io", icon: "hub" },
-  { role: "dispatcher", email: "dispatch@arjuna.io", icon: "route" },
-  { role: "safety_officer", email: "safety@arjuna.io", icon: "verified_user" },
-  { role: "financial_analyst", email: "finance@arjuna.io", icon: "insights" },
-];
+const DEMO_EMAIL: Record<Role, string> = {
+  fleet_manager: "manager@arjuna.io",
+  dispatcher: "dispatch@arjuna.io",
+  safety_officer: "safety@arjuna.io",
+  financial_analyst: "finance@arjuna.io",
+};
 
 export function Login() {
   const { login } = useAuth();
@@ -21,15 +20,17 @@ export function Login() {
   const location = useLocation();
   const from = (location.state as { from?: string } | null)?.from ?? "/";
 
-  const [role, setRole] = useState<Role>("fleet_manager");
-  const [email, setEmail] = useState("manager@arjuna.io");
+  const [role, setRole] = useState<Role>("dispatcher");
+  const [email, setEmail] = useState(DEMO_EMAIL.dispatcher);
   const [password, setPassword] = useState("demo1234");
+  const [showPassword, setShowPassword] = useState(false);
+  const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const selectRole = (r: Role, mail: string) => {
+  const onRoleChange = (r: Role) => {
     setRole(r);
-    setEmail(mail);
+    setEmail(DEMO_EMAIL[r]);
   };
 
   const submit = async (e: React.FormEvent) => {
@@ -47,73 +48,141 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-grid-pattern flex items-center justify-center p-md">
-      <div className="absolute inset-0 map-bg" />
-      <div className="relative w-full max-w-md glass-panel rounded-2xl p-xl border border-white/10 animate-fade-in-up">
-        <div className="flex flex-col items-center text-center mb-lg">
-          <div className="w-16 h-16 rounded-2xl overflow-hidden border border-primary/40 glow-primary mb-md">
-            <img src={BRAND.logoUrl} alt={BRAND.fullName} className="w-full h-full object-cover" />
+    <div className="min-h-screen bg-background flex items-center justify-center p-md">
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 rounded-2xl overflow-hidden shadow-[0_8px_40px_rgba(20,20,25,0.12)] border border-black/[0.06] animate-fade-in-up">
+        {/* Left: brand / atmosphere panel */}
+        <div className="hidden md:flex relative flex-col justify-end p-lg min-h-[520px] bg-secondary overflow-hidden">
+          <svg
+            className="absolute inset-0 w-full h-full opacity-25"
+            viewBox="0 0 400 520"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            <defs>
+              <linearGradient id="yardFade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#000000" stopOpacity="0" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0.9" />
+              </linearGradient>
+            </defs>
+            {Array.from({ length: 8 }).map((_, i) => (
+              <rect key={i} x={20 + i * 46} y={260} width="28" height="100" rx="3" fill="#ffffff" opacity={0.5} />
+            ))}
+            {Array.from({ length: 8 }).map((_, i) => (
+              <circle key={`w1-${i}`} cx={30 + i * 46} cy={362} r="7" fill="#111214" />
+            ))}
+            {Array.from({ length: 8 }).map((_, i) => (
+              <circle key={`w2-${i}`} cx={38 + i * 46} cy={362} r="7" fill="#111214" />
+            ))}
+            <rect x="0" y="0" width="400" height="520" fill="url(#yardFade)" />
+          </svg>
+          <div className="relative">
+            <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center mb-md">
+              <Icon name="local_shipping" className="text-white text-[20px]" filled />
+            </div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-white font-display font-bold text-body-lg">{BRAND.name} TMS</span>
+            </div>
+            <h1 className="text-white font-display text-headline-md font-bold leading-tight mb-2">
+              Enterprise Logistics
+            </h1>
+            <p className="text-white/60 text-body-md max-w-xs">
+              Command your fleet with precision and speed. The authoritative standard in transport management.
+            </p>
           </div>
-          <h1 className="font-display text-headline-md text-on-surface tracking-tight">{BRAND.name}</h1>
-          <p className="text-body-md text-on-surface-variant mt-1">{BRAND.tagline}</p>
         </div>
 
-        <div className="grid grid-cols-2 gap-2 mb-lg">
-          {DEMO.map((d) => (
+        {/* Right: sign-in form */}
+        <div className="bg-surface p-lg sm:p-xl flex flex-col justify-center relative">
+          <div className="flex items-center justify-between mb-md">
+            <div>
+              <h2 className="text-headline-md font-display font-bold text-on-surface">Sign In</h2>
+              <p className="text-body-md text-on-surface-variant mt-1">Enter your credentials to access the terminal.</p>
+            </div>
+          </div>
+
+          <form onSubmit={submit} className="space-y-md">
+            <label className="block">
+              <span className="text-label-caps uppercase text-on-surface-variant">Role</span>
+              <div className="relative mt-1">
+                <select
+                  value={role}
+                  onChange={(e) => onRoleChange(e.target.value as Role)}
+                  className="w-full appearance-none h-11 px-3 rounded-lg bg-surface-container border border-black/10 text-body-md text-on-surface input-glow outline-none"
+                >
+                  {(Object.keys(ROLE_LABELS) as Role[]).map((r) => (
+                    <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+                  ))}
+                </select>
+                <Icon name="expand_more" className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[18px] text-on-surface-variant" />
+              </div>
+            </label>
+
+            <label className="block">
+              <span className="text-label-caps uppercase text-on-surface-variant">Email or Operator ID</span>
+              <div className="mt-1 flex items-center gap-2 h-11 px-3 rounded-lg bg-surface-container border border-black/10 input-glow">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="e.g. OP-10492"
+                  className="flex-1 bg-transparent outline-none text-body-md text-on-surface placeholder:text-on-surface-variant/60"
+                  required
+                />
+              </div>
+            </label>
+
+            <label className="block">
+              <div className="flex items-center justify-between">
+                <span className="text-label-caps uppercase text-on-surface-variant">Password</span>
+                <button type="button" className="text-[12px] text-primary hover:underline">Forgot password?</button>
+              </div>
+              <div className="mt-1 flex items-center gap-2 h-11 px-3 rounded-lg bg-surface-container border border-black/10 input-glow">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="flex-1 bg-transparent outline-none text-body-md text-on-surface"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((s) => !s)}
+                  className="text-on-surface-variant hover:text-on-surface"
+                  aria-label="Toggle password visibility"
+                >
+                  <Icon name={showPassword ? "visibility_off" : "visibility"} className="text-[18px]" />
+                </button>
+              </div>
+            </label>
+
+            <label className="flex items-center gap-2 text-[12px] text-on-surface-variant">
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                className="w-4 h-4 rounded border-black/20 accent-[#B5121B]"
+              />
+              Remember this device
+            </label>
+
+            {error && <p className="text-body-md text-error">{error}</p>}
+
             <button
-              key={d.role}
-              type="button"
-              onClick={() => selectRole(d.role, d.email)}
-              className={`flex items-center gap-2 p-3 rounded-lg border text-left transition-all ${
-                role === d.role
-                  ? "border-primary/50 bg-primary-container/15 text-primary glow-active"
-                  : "border-white/5 bg-surface-variant/30 text-on-surface-variant hover:border-white/20"
-              }`}
+              type="submit"
+              disabled={loading}
+              className="w-full h-11 rounded-lg bg-primary text-white font-semibold text-data-tabular flex items-center justify-center gap-2 hover:brightness-110 transition-all disabled:opacity-50"
             >
-              <Icon name={d.icon} className="text-[20px]" />
-              <span className="text-[12px] font-medium leading-tight">{ROLE_LABELS[d.role]}</span>
+              {loading ? <Spinner /> : <>AUTHENTICATE <Icon name="login" className="text-[18px]" /></>}
             </button>
-          ))}
+          </form>
+
+          <div className="flex items-center justify-between mt-lg pt-md border-t border-black/[0.06] text-[11px] text-on-surface-variant">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-success" />
+              System Online
+            </span>
+            <span>v4.2.0-stable</span>
+          </div>
         </div>
-
-        <form onSubmit={submit} className="space-y-md">
-          <label className="block">
-            <span className="text-label-caps uppercase text-on-surface-variant">Operator ID</span>
-            <div className="mt-1 flex items-center gap-2 h-11 px-3 rounded-lg bg-surface-variant/30 border border-white/5 input-glow">
-              <Icon name="mail" className="text-[18px] text-on-surface-variant" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="flex-1 bg-transparent outline-none text-body-md text-on-surface"
-                required
-              />
-            </div>
-          </label>
-          <label className="block">
-            <span className="text-label-caps uppercase text-on-surface-variant">Access Key</span>
-            <div className="mt-1 flex items-center gap-2 h-11 px-3 rounded-lg bg-surface-variant/30 border border-white/5 input-glow">
-              <Icon name="lock" className="text-[18px] text-on-surface-variant" />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="flex-1 bg-transparent outline-none text-body-md text-on-surface"
-                required
-              />
-            </div>
-          </label>
-
-          {error && <p className="text-body-md text-error">{error}</p>}
-
-          <Button type="submit" className="w-full h-11" disabled={loading}>
-            {loading ? <Spinner /> : <><Icon name="login" className="text-[20px]" /> Enter Command Center</>}
-          </Button>
-        </form>
-
-        <p className="text-[11px] text-on-surface-variant/60 text-center mt-md">
-          Demo environment · select a role to preview its dashboard
-        </p>
       </div>
     </div>
   );

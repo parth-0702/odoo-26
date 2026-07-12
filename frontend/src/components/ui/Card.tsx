@@ -14,7 +14,7 @@ export function Card({
     <div
       className={clsx(
         "rounded-xl p-md",
-        glass ? "glass-panel" : "bg-surface-container border border-white/5",
+        glass ? "glass-panel" : "bg-surface-container border border-black/[0.06]",
         className
       )}
     >
@@ -25,7 +25,7 @@ export function Card({
 
 export function CardHeader({ title, action }: { title: string; action?: ReactNode }) {
   return (
-    <div className="flex items-center justify-between mb-md border-b border-white/5 pb-sm">
+    <div className="flex items-center justify-between mb-md border-b border-black/[0.06] pb-sm">
       <h3 className="text-body-lg font-headline font-semibold text-on-surface">{title}</h3>
       {action}
     </div>

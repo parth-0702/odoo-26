@@ -69,10 +69,10 @@ export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => 
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-[12vh] px-4" onClick={onClose}>
       <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" />
       <div
-        className="relative w-full max-w-2xl glass-panel rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+        className="relative w-full max-w-2xl glass-panel rounded-2xl overflow-hidden border border-black/10 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 px-lg h-16 border-b border-white/5">
+        <div className="flex items-center gap-3 px-lg h-16 border-b border-black/[0.06]">
           <Icon name="search" className="text-[22px] text-on-surface-variant" />
           <input
             ref={inputRef}
@@ -82,7 +82,7 @@ export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => 
             className="flex-1 bg-transparent outline-none text-body-lg text-on-surface placeholder:text-on-surface-variant/60"
           />
           {loading && <Spinner />}
-          <kbd className="text-[10px] px-2 py-1 rounded bg-surface-variant/50 text-on-surface-variant border border-white/10">
+          <kbd className="text-[10px] px-2 py-1 rounded bg-surface-variant/50 text-on-surface-variant border border-black/10">
             ESC
           </kbd>
         </div>
@@ -112,7 +112,7 @@ export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => 
                   onMouseEnter={() => setActive(i)}
                   onClick={() => { navigate(row.to); onClose(); }}
                   className={`w-full flex items-center gap-3 px-lg py-2.5 text-left transition-colors ${
-                    i === active ? "bg-primary-container/15" : "hover:bg-white/5"
+                    i === active ? "bg-primary/10" : "hover:bg-black/[0.03]"
                   }`}
                 >
                   <Icon name={row.icon} className="text-[20px] text-primary" />

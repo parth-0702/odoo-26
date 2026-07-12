@@ -17,7 +17,7 @@ export function TopBar({
   const [notifOpen, setNotifOpen] = useState(false);
 
   return (
-    <header className="h-16 sticky top-0 z-20 bg-surface-container-low/80 backdrop-blur-md border-b border-white/5 flex items-center gap-3 px-md sm:px-lg">
+    <header className="h-16 sticky top-0 z-20 bg-surface/90 backdrop-blur-md border-b border-black/[0.06] flex items-center gap-3 px-md sm:px-lg">
       <button
         onClick={onOpenMenu}
         className="lg:hidden text-on-surface-variant hover:text-on-surface p-1"
@@ -29,11 +29,11 @@ export function TopBar({
       {/* Search trigger */}
       <button
         onClick={onOpenSearch}
-        className="flex-1 max-w-md flex items-center gap-3 h-10 px-md rounded-lg bg-surface-variant/40 border border-white/5 text-on-surface-variant hover:border-primary/30 transition-colors"
+        className="flex-1 max-w-md flex items-center gap-3 h-10 px-md rounded-lg bg-surface-variant/50 border border-black/[0.06] text-on-surface-variant hover:border-primary/30 transition-colors"
       >
         <Icon name="search" className="text-[20px]" />
         <span className="text-body-md flex-1 text-left">Search fleet…</span>
-        <kbd className="hidden sm:inline text-[10px] px-1.5 py-0.5 rounded bg-surface-container border border-white/10">
+        <kbd className="hidden sm:inline text-[10px] px-1.5 py-0.5 rounded bg-surface-container border border-black/10">
           Ctrl K
         </kbd>
       </button>
@@ -52,7 +52,7 @@ export function TopBar({
       <div className="relative">
         <button
           onClick={() => setNotifOpen((o) => !o)}
-          className="relative w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-white/5 transition-colors"
+          className="relative w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-black/5 transition-colors"
           aria-label="Notifications"
         >
           <Icon name="notifications" className="text-[22px]" />

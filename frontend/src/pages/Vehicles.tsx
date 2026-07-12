@@ -34,7 +34,7 @@ export function Vehicles() {
       <PageHeader title="Vehicle Registry" subtitle="Fleet assets & telemetry" />
 
       <div className="flex flex-col sm:flex-row gap-sm mb-md">
-        <div className="flex items-center gap-2 h-10 px-3 rounded-lg bg-surface-variant/30 border border-white/5 flex-1 max-w-sm">
+        <div className="flex items-center gap-2 h-10 px-3 rounded-lg bg-surface-variant/30 border border-black/[0.06] flex-1 max-w-sm">
           <Icon name="search" className="text-[18px] text-on-surface-variant" />
           <input
             value={q}
@@ -51,7 +51,7 @@ export function Vehicles() {
               className={`px-3 h-10 rounded-lg text-data-tabular border transition-colors ${
                 filter === f
                   ? "bg-primary-container/15 text-primary border-primary/30"
-                  : "bg-surface-variant/20 text-on-surface-variant border-white/5 hover:border-white/20"
+                  : "bg-surface-variant/20 text-on-surface-variant border-black/10 hover:border-primary/30"
               }`}
             >
               {titleCase(f)}
@@ -77,7 +77,7 @@ export function Vehicles() {
                 <Card className="hover:border-primary/30 transition-colors">
                   <div className="flex items-start justify-between mb-md">
                     <div className="flex items-center gap-3">
-                      <div className="w-11 h-11 rounded-lg bg-surface-variant/40 flex items-center justify-center border border-white/5">
+                      <div className="w-11 h-11 rounded-lg bg-surface-variant/40 flex items-center justify-center border border-black/[0.06]">
                         <Icon name="local_shipping" className="text-[22px] text-primary" />
                       </div>
                       <div>

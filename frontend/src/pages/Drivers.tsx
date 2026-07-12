@@ -49,7 +49,7 @@ export function Drivers() {
                   "px-3 py-1.5 rounded-full text-[12px] border transition-colors",
                   filter === f.key
                     ? "bg-primary-container/25 border-primary/40 text-primary"
-                    : "bg-white/5 border-white/10 text-on-surface-variant hover:text-on-surface"
+                    : "bg-black/[0.03] border-black/10 text-on-surface-variant hover:text-on-surface"
                 )}
               >
                 {f.label}
@@ -114,7 +114,7 @@ export function Drivers() {
                     )}
 
                     {d.complianceFlags && d.complianceFlags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 pt-2 border-t border-white/5">
+                      <div className="flex flex-wrap gap-1 pt-2 border-t border-black/[0.06]">
                         {d.complianceFlags.map((f) => (
                           <Badge key={f} tone="danger">{titleCase(f)}</Badge>
                         ))}
@@ -141,7 +141,7 @@ function InfoRow({ icon, label, value, warn }: { icon: string; label: string; va
         <Icon name={icon} className="text-[14px]" />
         {label}
       </span>
-      <span className={clsx("font-medium truncate max-w-[130px] text-right", warn ? "text-tertiary" : "text-on-surface")}>{value}</span>
+      <span className={clsx("font-medium truncate max-w-[130px] text-right", warn ? "text-warning" : "text-on-surface")}>{value}</span>
     </div>
   );
 }

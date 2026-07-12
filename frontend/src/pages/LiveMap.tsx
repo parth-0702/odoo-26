@@ -10,11 +10,11 @@ import type { Vehicle, VehicleStatus } from "@/types";
 import clsx from "clsx";
 
 const PIN_COLOR: Record<VehicleStatus, string> = {
-  active: "#6ADB9E",
-  idle: "#8D9199",
-  in_maintenance: "#F9BD22",
-  flagged: "#FFB4AB",
-  retired: "#43474E",
+  active: "#1E8E5A",
+  idle: "#8A8D93",
+  in_maintenance: "#C77700",
+  flagged: "#D32F2F",
+  retired: "#C7C9CE",
 };
 
 const FILTERS: { key: VehicleStatus | "all"; label: string }[] = [
@@ -52,7 +52,7 @@ export function LiveMap() {
   };
 
   return (
-    <div className="animate-fade-in-up h-[calc(100vh-8rem)] relative rounded-xl overflow-hidden border border-white/5 map-bg">
+    <div className="animate-fade-in-up h-[calc(100vh-8rem)] relative rounded-xl overflow-hidden border border-black/10 map-bg">
       <div className="map-grid" />
 
       {/* Geofence rings for visual depth */}
@@ -134,7 +134,7 @@ export function LiveMap() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search reg. no. or location…"
-              className="w-full bg-surface-variant/20 border border-white/10 rounded-lg pl-8 pr-3 py-2 text-[12px] text-on-surface placeholder:text-on-surface-variant/60 input-glow outline-none"
+              className="w-full bg-surface-variant/40 border border-black/10 rounded-lg pl-8 pr-3 py-2 text-[12px] text-on-surface placeholder:text-on-surface-variant/60 input-glow outline-none"
             />
           </div>
           <div className="flex flex-wrap gap-1.5">
@@ -146,7 +146,7 @@ export function LiveMap() {
                   "px-2.5 py-1 rounded-full text-[11px] border transition-colors",
                   filter === f.key
                     ? "bg-primary-container/25 border-primary/40 text-primary"
-                    : "bg-white/5 border-white/10 text-on-surface-variant hover:text-on-surface"
+                    : "bg-black/[0.03] border-black/10 text-on-surface-variant hover:text-on-surface"
                 )}
               >
                 {f.label}
@@ -167,7 +167,7 @@ export function LiveMap() {
                   onClick={() => setSelected(v)}
                   className={clsx(
                     "w-full flex items-center justify-between p-2 rounded-lg text-left transition-colors",
-                    selected?._id === v._id ? "bg-primary-container/15 border border-primary/30" : "bg-surface-variant/20 border border-transparent hover:border-white/10"
+                    selected?._id === v._id ? "bg-primary-container/15 border border-primary/30" : "bg-surface-variant/40 border border-transparent hover:border-black/10"
                   )}
                 >
                   <div className="min-w-0">
@@ -184,7 +184,7 @@ export function LiveMap() {
       </div>
 
       {/* Legend */}
-      <div className="hidden sm:flex absolute top-4 right-4 gap-3 bg-surface/60 backdrop-blur-md border border-white/10 rounded-lg px-3 py-2">
+      <div className="hidden sm:flex absolute top-4 right-4 gap-3 bg-surface/80 backdrop-blur-md border border-black/10 rounded-lg px-3 py-2">
         {(Object.keys(PIN_COLOR) as VehicleStatus[]).filter((s) => s !== "retired").map((s) => (
           <div key={s} className="flex items-center gap-1.5 text-[11px] text-on-surface-variant">
             <span className="w-2 h-2 rounded-full" style={{ background: PIN_COLOR[s] }} />

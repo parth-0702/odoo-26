@@ -6,9 +6,9 @@ interface GaugeRingProps {
 }
 
 function toneForScore(value: number): string {
-  if (value >= 85) return "#6ADB9E"; // secondary
-  if (value >= 65) return "#F9BD22"; // tertiary
-  return "#FFB4AB"; // error
+  if (value >= 85) return "#1E8E5A"; // success
+  if (value >= 65) return "#C77700"; // warning
+  return "#D32F2F"; // error
 }
 
 export function GaugeRing({ value, size = 64, strokeWidth = 6, label = "Safety" }: GaugeRingProps) {
