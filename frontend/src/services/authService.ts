@@ -1,6 +1,7 @@
-import { apiRequest, mockDelay, tokenStore, USE_MOCKS } from "@/api/client";
+import { apiRequest, mockDelay, tokenStore, USE_MOCKS, ApiError } from "@/api/client";
 import { ENDPOINTS } from "@/api/endpoints";
 import { mockUsers } from "@/mocks";
+import { DEMO_CREDENTIALS } from "@/config/demoAuth";
 import type { Role, User } from "@/types";
 
 interface AuthResponse {
@@ -20,12 +21,32 @@ export const authService = {
       localStorage.setItem("arjuna_mock_user", JSON.stringify(user));
       return mockDelay(user, 500);
     }
-    const res = await apiRequest<AuthResponse>(ENDPOINTS.auth.login, {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
-    tokenStore.set(res.token);
-    return res.data;
+    // Real API: the role-switcher UI collects no password, so fall back to
+    // the seeded demo account for the chosen role (see config/demoAuth.ts).
+    const isDemoRoleLogin = !email && !password && !!role;
+    const creds = isDemoRoleLogin
+      ? DEMO_CREDENTIALS[role]
+      : { email, password };
+    try {
+      const res = await apiRequest<AuthResponse>(ENDPOINTS.auth.login, {
+        method: "POST",
+        body: JSON.stringify({ ...creds, role }),
+      });
+      tokenStore.set(res.token);
+      return res.data;
+    } catch (err) {
+      // A 401 here almost always means the demo user hasn't been seeded
+      // into MongoDB yet (or the backend is pointed at a different
+      // MONGO_URI than the one that was seeded). Surface that clearly
+      // instead of the generic "Invalid email or password".
+      if (isDemoRoleLogin && err instanceof ApiError && err.status === 401) {
+        throw new Error(
+          `Couldn't sign in as ${creds.email}. Run "npm run seed" in /backend against ` +
+            `the MongoDB in backend/.env (MONGO_URI) to create the demo accounts, then try again.`
+        );
+      }
+      throw err;
+    }
   },
 
   async me(): Promise<User | null> {
@@ -34,8 +55,19 @@ export const authService = {
       return mockDelay(raw ? (JSON.parse(raw) as User) : null, 200);
     }
     if (!tokenStore.get()) return null;
-    const res = await apiRequest<{ data: User }>(ENDPOINTS.auth.me);
-    return res.data;
+    try {
+      const res = await apiRequest<{ data: User }>(ENDPOINTS.auth.me);
+      return res.data;
+    } catch (err) {
+      // Stale/expired/invalid token — clear it so we don't keep retrying
+      // a doomed request on every reload, and so the app cleanly falls
+      // back to the login screen.
+      if (err instanceof ApiError && err.status === 401) {
+        tokenStore.clear();
+        return null;
+      }
+      throw err;
+    }
   },
 
   logout() {
