@@ -6,23 +6,31 @@ import type { Role } from "@/types";
  */
 
 export const ROLES: Record<string, Role> = {
+  ADMIN: "admin",
   FLEET_MANAGER: "fleet_manager",
-  DISPATCHER: "dispatcher",
-  SAFETY_OFFICER: "safety_officer",
-  FINANCIAL_ANALYST: "financial_analyst",
+  DRIVER: "driver",
+  STAFF: "staff",
 };
 
 export const ROLE_LABELS: Record<Role, string> = {
+  admin: "Admin",
   fleet_manager: "Fleet Manager",
-  dispatcher: "Dispatcher",
-  safety_officer: "Safety Officer",
-  financial_analyst: "Financial Analyst",
+  driver: "Driver",
+  staff: "Staff",
+};
+
+export const ROLE_DESCRIPTIONS: Record<Role, string> = {
+  admin: "Full access to every module — manage users, fleet & operations.",
+  fleet_manager: "Full CRUD on vehicles, drivers, routes/trips & shipments.",
+  driver: "View fleet data, update status on your own trips & shipments.",
+  staff: "Read-only visibility across drivers, vehicles, trips & shipments.",
 };
 
 export type Resource =
   | "vehicle"
   | "driver"
   | "trip"
+  | "shipment"
   | "maintenance"
   | "fuel"
   | "expense"
@@ -35,26 +43,32 @@ export type Action = "read" | "create" | "update" | "delete";
 
 const ALL: Action[] = ["read", "create", "update", "delete"];
 const RO: Action[] = ["read"];
+const RU: Action[] = ["read", "update"];
 
 type Matrix = Record<Role, Partial<Record<Resource, Action[]>>>;
 
+/**
+ * Permission matrix: role -> resource -> allowed actions.
+ * Mirrors backend/src/config/permissions.js — keep both in sync.
+ */
 export const PERMISSION_MATRIX: Matrix = {
-  fleet_manager: {
-    vehicle: ALL, driver: ALL, trip: ALL, maintenance: ALL,
+  admin: {
+    vehicle: ALL, driver: ALL, trip: ALL, shipment: ALL, maintenance: ALL,
     fuel: ALL, expense: ALL, document: ALL, notification: ALL,
     report: ALL, user: ALL,
   },
-  dispatcher: {
-    vehicle: RO, driver: RO, trip: ALL, maintenance: RO,
-    fuel: RO, document: RO, notification: ["read", "update"],
+  fleet_manager: {
+    vehicle: ALL, driver: ALL, trip: ALL, shipment: ALL, maintenance: ALL,
+    document: ALL, fuel: RO, expense: RO, report: RO,
+    notification: RU,
   },
-  safety_officer: {
-    vehicle: RO, driver: ALL, trip: RO, maintenance: ALL,
-    document: ALL, notification: ["read", "update"], report: RO,
+  driver: {
+    vehicle: RO, driver: RO, trip: RU, shipment: RU,
+    document: RO, notification: RU,
   },
-  financial_analyst: {
-    vehicle: RO, trip: RO, fuel: ALL, expense: ALL,
-    report: ALL, notification: ["read", "update"], document: RO,
+  staff: {
+    vehicle: RO, driver: RO, trip: RO, shipment: RO,
+    maintenance: RO, document: RO, notification: RU,
   },
 };
 

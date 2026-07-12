@@ -5,10 +5,10 @@
  */
 
 const ROLES = {
+  ADMIN: "admin",
   FLEET_MANAGER: "fleet_manager",
-  DISPATCHER: "dispatcher",
-  SAFETY_OFFICER: "safety_officer",
-  FINANCIAL_ANALYST: "financial_analyst",
+  DRIVER: "driver",
+  STAFF: "staff",
 };
 
 // Resources map 1:1 to the domain models.
@@ -16,6 +16,7 @@ const RESOURCES = [
   "vehicle",
   "driver",
   "trip",
+  "shipment",
   "maintenance",
   "fuel",
   "expense",
@@ -29,28 +30,38 @@ const ACTIONS = ["read", "create", "update", "delete"];
 
 const ALL = ACTIONS; // convenience: full CRUD
 const RO = ["read"]; // read-only
+const RU = ["read", "update"]; // read + update, no create/delete
 
 /**
  * Permission matrix: role -> resource -> allowed actions.
  * Anything not listed is implicitly denied.
+ *
+ *  - Admin:          full CRUD on every module.
+ *  - Fleet Manager:  full CRUD on the core fleet modules (vehicles, drivers,
+ *                     trips/routes, shipments, maintenance, documents);
+ *                     read-only on finance/reporting.
+ *  - Driver:         read-only on fleet data, can update the trips/shipments
+ *                     assigned to them (e.g. progress status); no create/delete.
+ *  - Staff:          read-only across the board (general visibility, no edits).
  */
 const MATRIX = {
-  [ROLES.FLEET_MANAGER]: {
-    vehicle: ALL, driver: ALL, trip: ALL, maintenance: ALL,
+  [ROLES.ADMIN]: {
+    vehicle: ALL, driver: ALL, trip: ALL, shipment: ALL, maintenance: ALL,
     fuel: ALL, expense: ALL, document: ALL, notification: ALL,
     report: ALL, user: ALL,
   },
-  [ROLES.DISPATCHER]: {
-    vehicle: RO, driver: RO, trip: ALL, maintenance: RO,
-    fuel: RO, document: RO, notification: ["read", "update"],
+  [ROLES.FLEET_MANAGER]: {
+    vehicle: ALL, driver: ALL, trip: ALL, shipment: ALL, maintenance: ALL,
+    document: ALL, fuel: RO, expense: RO, report: RO,
+    notification: RU,
   },
-  [ROLES.SAFETY_OFFICER]: {
-    vehicle: RO, driver: ALL, trip: RO, maintenance: ALL,
-    document: ALL, notification: ["read", "update"], report: RO,
+  [ROLES.DRIVER]: {
+    vehicle: RO, driver: RO, trip: RU, shipment: RU,
+    document: RO, notification: RU,
   },
-  [ROLES.FINANCIAL_ANALYST]: {
-    vehicle: RO, trip: RO, fuel: ALL, expense: ALL,
-    report: ALL, notification: ["read", "update"], document: RO,
+  [ROLES.STAFF]: {
+    vehicle: RO, driver: RO, trip: RO, shipment: RO,
+    maintenance: RO, document: RO, notification: RU,
   },
 };
 

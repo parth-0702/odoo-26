@@ -15,6 +15,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", path: "/", icon: "dashboard", section: "operations" },
   { label: "Live Map", path: "/live-map", icon: "map", section: "operations", resource: "vehicle" },
   { label: "Dispatch & Trips", path: "/trips", icon: "route", section: "operations", resource: "trip" },
+  { label: "Shipments", path: "/shipments", icon: "local_shipping", section: "operations", resource: "shipment" },
   { label: "Vehicles", path: "/vehicles", icon: "local_shipping", section: "assets", resource: "vehicle" },
   { label: "Drivers", path: "/drivers", icon: "badge", section: "assets", resource: "driver" },
   { label: "Maintenance", path: "/maintenance", icon: "build", section: "assets", resource: "maintenance" },

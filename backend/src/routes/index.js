@@ -6,6 +6,7 @@ const authRoutes = require("./authRoutes");
 const Vehicle = require("../models/Vehicle");
 const Driver = require("../models/Driver");
 const Trip = require("../models/Trip");
+const Shipment = require("../models/Shipment");
 const Maintenance = require("../models/Maintenance");
 const FuelLog = require("../models/FuelLog");
 const Expense = require("../models/Expense");
@@ -36,6 +37,10 @@ router.use("/drivers", buildResourceRouter(Driver, "driver", {
 router.use("/trips", buildResourceRouter(Trip, "trip", {
   populate: ["vehicle", "driver"],
   searchFields: ["reference", "origin", "destination"],
+}));
+router.use("/shipments", buildResourceRouter(Shipment, "shipment", {
+  populate: ["trip", "vehicle", "driver"],
+  searchFields: ["reference", "customerName", "origin", "destination"],
 }));
 router.use("/maintenance", buildResourceRouter(Maintenance, "maintenance", {
   populate: ["vehicle"],

@@ -1,8 +1,8 @@
 export type Role =
+  | "admin"
   | "fleet_manager"
-  | "dispatcher"
-  | "safety_officer"
-  | "financial_analyst";
+  | "driver"
+  | "staff";
 
 export interface User {
   _id: string;
@@ -78,6 +78,32 @@ export interface Trip {
   scheduledStart?: string;
   scheduledEnd?: string;
   etaMinutes?: number;
+}
+
+export type ShipmentStatus =
+  | "pending"
+  | "picked_up"
+  | "in_transit"
+  | "out_for_delivery"
+  | "delivered"
+  | "cancelled";
+
+export interface Shipment {
+  _id: string;
+  reference: string;
+  trip?: Trip | string;
+  vehicle?: Vehicle | string;
+  driver?: Driver | string;
+  customerName: string;
+  origin: string;
+  destination: string;
+  contents?: string;
+  weightKg?: number;
+  status: ShipmentStatus;
+  priority: "low" | "normal" | "high" | "urgent";
+  expectedDelivery?: string;
+  deliveredAt?: string;
+  notes?: string;
 }
 
 export type MaintenanceStatus = "due" | "scheduled" | "in_progress" | "completed" | "overdue";

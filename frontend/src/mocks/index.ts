@@ -4,7 +4,7 @@
  * Replace by pointing services at the real API — no component changes needed.
  */
 import type {
-  Vehicle, Driver, Trip, Maintenance, FuelLog, Expense, AppNotification, VehicleDocument, User,
+  Vehicle, Driver, Trip, Shipment, Maintenance, FuelLog, Expense, AppNotification, VehicleDocument, User,
   VehicleAssessment,
 } from "@/types";
 
@@ -12,10 +12,10 @@ const now = Date.now();
 const days = (d: number) => new Date(now + d * 864e5).toISOString();
 
 export const mockUsers: User[] = [
-  { _id: "u1", name: "Aarav Mehta", email: "manager@arjuna.com", role: "fleet_manager" },
-  { _id: "u2", name: "Diya Sharma", email: "dispatcher@arjuna.com", role: "dispatcher" },
-  { _id: "u3", name: "Kabir Rao", email: "safety@arjuna.com", role: "safety_officer" },
-  { _id: "u4", name: "Ananya Iyer", email: "finance@arjuna.com", role: "financial_analyst" },
+  { _id: "u1", name: "Vikram Singh", email: "admin@arjuna.com", role: "admin" },
+  { _id: "u2", name: "Aarav Mehta", email: "manager@arjuna.com", role: "fleet_manager" },
+  { _id: "u3", name: "J. Doe", email: "driver@arjuna.com", role: "driver" },
+  { _id: "u4", name: "Ananya Iyer", email: "staff@arjuna.com", role: "staff" },
 ];
 
 export const mockDrivers: Driver[] = [
@@ -54,6 +54,13 @@ export const mockTrips: Trip[] = [
   { _id: "t4", reference: "TRP-1004", vehicle: mockVehicles[3], driver: mockDrivers[3], origin: "Surat", destination: "Ahmedabad", cargo: "Chemicals", distanceKm: 265, status: "completed", priority: "low" },
 ];
 
+export const mockShipments: Shipment[] = [
+  { _id: "s1", reference: "SHP-5001", trip: mockTrips[0], vehicle: mockVehicles[0], driver: mockDrivers[0], customerName: "Reliance Retail", origin: "Mumbai", destination: "Pune", contents: "Electronics", weightKg: 1200, status: "in_transit", priority: "high", expectedDelivery: days(1) },
+  { _id: "s2", reference: "SHP-5002", trip: mockTrips[1], vehicle: mockVehicles[1], driver: mockDrivers[1], customerName: "Future Group", origin: "Delhi", destination: "Jaipur", contents: "Textiles", weightKg: 800, status: "pending", priority: "urgent", expectedDelivery: days(2) },
+  { _id: "s3", reference: "SHP-5003", trip: mockTrips[2], vehicle: mockVehicles[2], driver: mockDrivers[2], customerName: "Amazon India", origin: "Nagpur", destination: "Indore", contents: "FMCG", weightKg: 650, status: "picked_up", priority: "normal", expectedDelivery: days(3) },
+  { _id: "s4", reference: "SHP-5004", trip: mockTrips[3], vehicle: mockVehicles[3], driver: mockDrivers[3], customerName: "Flipkart", origin: "Surat", destination: "Ahmedabad", contents: "Apparel", weightKg: 400, status: "delivered", priority: "low", deliveredAt: days(-1) },
+];
+
 export const mockMaintenance: Maintenance[] = [
   { _id: "m1", vehicle: mockVehicles[2], type: "scheduled", title: "50k km service", status: "in_progress", severity: "medium", cost: 18500, dueDate: days(0) },
   { _id: "m2", vehicle: mockVehicles[1], type: "predictive", title: "Engine temperature anomaly", description: "Irregular engine temperature detected — schedule inspection within 48hrs.", status: "overdue", severity: "critical", cost: 0, dueDate: days(-2) },
@@ -80,9 +87,9 @@ export const mockDocuments: VehicleDocument[] = [
 ];
 
 export const mockNotifications: AppNotification[] = [
-  { _id: "n1", type: "license_expiry", title: "License expired", message: "A. Smith's driving license has expired.", severity: "critical", read: false, audienceRoles: ["safety_officer", "fleet_manager"], createdAt: days(0) },
+  { _id: "n1", type: "license_expiry", title: "License expired", message: "A. Smith's driving license has expired.", severity: "critical", read: false, audienceRoles: ["admin", "fleet_manager"], createdAt: days(0) },
   { _id: "n2", type: "maintenance_reminder", title: "Service overdue", message: "Vehicle V-4092 engine inspection is overdue.", severity: "critical", read: false, createdAt: days(0) },
-  { _id: "n3", type: "trip_delayed", title: "Trip delayed", message: "TRP-1002 (Delhi → Jaipur) is running behind schedule.", severity: "warning", read: false, audienceRoles: ["dispatcher", "fleet_manager"], createdAt: days(-1) },
+  { _id: "n3", type: "trip_delayed", title: "Trip delayed", message: "TRP-1002 (Delhi → Jaipur) is running behind schedule.", severity: "warning", read: false, audienceRoles: ["driver", "fleet_manager"], createdAt: days(-1) },
   { _id: "n4", type: "document_expiry", title: "Document expiring", message: "Insurance for V-8942 expires in 15 days.", severity: "warning", read: true, createdAt: days(-2) },
 ];
 
