@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
 import { Icon } from "./Icon";
 
@@ -12,27 +13,60 @@ export function Modal({
   children: ReactNode;
   wide?: boolean;
 }) {
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-md bg-[#2B2B2F]/60 backdrop-blur-sm animate-fade-in-up"
+      className="fixed inset-0 z-50 grid place-items-center p-4 overflow-y-auto bg-black/75 backdrop-blur-[2px]"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`w-full ${wide ? "max-w-2xl" : "max-w-md"} max-h-[90vh] overflow-y-auto rounded-[1.75rem] bg-surface border-[3px] border-outline shadow-pop-lg`}
+        className={`w-full ${
+          wide ? "max-w-2xl" : "max-w-md"
+        } my-auto rounded-2xl flex flex-col max-h-[85vh] animate-fade-in-up`}
+        style={{
+          backgroundColor: "#0E1325",
+          border: "1px solid rgba(255, 255, 255, 0.08)",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
+          color: "#F1F5F9",
+        }}
       >
-        <div className="flex items-center justify-between px-lg py-md border-b-2 border-outline/15 sticky top-0 bg-surface z-10 rounded-t-[1.5rem]">
-          <h3 className="text-body-lg font-headline font-bold text-on-surface">{title}</h3>
+        {/* Header */}
+        <div 
+          className="flex items-center justify-between px-6 py-4 border-b rounded-t-2xl flex-shrink-0"
+          style={{
+            borderColor: "rgba(255, 255, 255, 0.08)",
+          }}
+        >
+          <h3 className="text-[16px] font-semibold" style={{ color: "#F1F5F9" }}>
+            {title}
+          </h3>
           <button
             onClick={onClose}
-            className="text-on-surface-variant hover:text-on-surface p-1.5 rounded-full border-2 border-outline hover:bg-black/5 transition-colors"
+            className="p-1.5 rounded-full transition-colors border"
+            style={{
+              borderColor: "rgba(255, 255, 255, 0.12)",
+              color: "#94A3B8",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+              e.currentTarget.style.color = "#F1F5F9";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+              e.currentTarget.style.color = "#94A3B8";
+            }}
             aria-label="Close"
           >
-            <Icon name="close" className="text-[18px]" />
+            <Icon name="close" className="text-[16px]" />
           </button>
         </div>
-        <div className="p-lg">{children}</div>
+        
+        {/* Body */}
+        <div className="p-6 overflow-y-auto scrollbar-hide flex-1">
+          {children}
+        </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
